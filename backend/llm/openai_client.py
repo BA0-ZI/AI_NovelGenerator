@@ -632,7 +632,16 @@ class OpenAICompatibleClient(BaseLLMClient):
                     "type": "function",
                     "function": {"name": probe.tool_name},
                 }
-                first_resp = await self._create_completion(params, collect_stream=request.stream)
+                try:
+                    first_resp = await self._create_completion(params, collect_stream=request.stream)
+                except (openai.BadRequestError, LLMResponseError) as exc:
+                    if params.get("tool_choice") != "auto" and "tool_choice" in str(exc):
+                        # 部分 OpenAI 兼容接口（如 LM Studio）不支持对象形式的强制工具选择，
+                        # 回退为字符串 "auto" 后重试一轮；真实工作流本身即使用 "auto"。
+                        params["tool_choice"] = "auto"
+                        first_resp = await self._create_completion(params, collect_stream=request.stream)
+                    else:
+                        raise
                 observe_provider_response(first_resp, self.config.resolved_api_mode)
                 first_choice = first_resp.choices[0] if first_resp.choices else None
                 tool_calls = list(getattr(first_choice.message, "tool_calls", None) or []) if first_choice else []

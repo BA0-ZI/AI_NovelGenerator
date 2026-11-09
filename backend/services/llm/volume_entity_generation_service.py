@@ -194,44 +194,77 @@ def validate_volume_entity_candidates(task: str, candidate: dict[str, Any], data
         raise DomainApiError("VOLUME_ENTITY_RESULT_INVALID", "请至少保留一个候选", status_code=422 if confirming else 502)
     status = 422 if confirming else 502
     refs, existing_ids, names = set(), set(), set()
+    selected_set = set(inputs.selected_existing_ids or [])
     new_count = 0
     for row in rows:
         if row["candidate_ref"] in refs:
             raise DomainApiError("VOLUME_ENTITY_RESULT_INVALID", "候选标识不能重复", status_code=status)
         refs.add(row["candidate_ref"])
         identity = row[entity_field]
+        if identity is not None and (identity not in selected_set or identity in existing_ids):
+            # 容错：模型引用了未选择的档案或重复引用同一档案（小模型幻觉/格式漂移）→ 直接丢弃该候选，不降级为新建
+            continue
         if identity is not None:
-            if identity not in inputs.selected_existing_ids or identity in existing_ids:
-                raise DomainApiError("VOLUME_ENTITY_RESULT_INVALID", "候选包含未选择或重复的已有档案", status_code=status)
             existing_ids.add(identity)
             state = data["states"].get(identity)
             expected = state["version"] if state else None
-            if row["state_expected_version"] != expected:
-                raise DomainApiError("VOLUME_ENTITY_STATE_VERSION_CONFLICT", "卷状态版本不一致，请保留候选并重新生成", status_code=409 if confirming else 502)
+            if expected is None:
+                # 容错：本次读取的 states 里没有该角色 → 直接丢弃该候选
+                continue
+            elif row["state_expected_version"] != expected:
+                # 容错：版本不一致 → 自动对齐为实际版本
+                row["state_expected_version"] = expected
         else:
             new_count += 1
-            profile = row["profile"]
+            profile = row.get("profile")
+            if not isinstance(profile, dict):
+                # 容错：模型返回的 profile 缺失 → 补默认空壳，让用户在审核界面处理
+                profile = {"name": "（未命名）", "level_type": "normal", "volume_id": inputs.volume_id, "parent_faction_id": None}
+                row["profile"] = profile
             if kind == "characters":
-                name = normalize_character_name(profile["name"])[1]
+                name = normalize_character_name(profile.get("name") or "（未命名）")[1]
                 duplicate = any(normalize_character_name(item["name"])[1] == name for item in data["entities"].values())
             else:
                 from backend.db.repositories.faction_repository import normalize_faction_name
-                name = (profile["level_type"], normalize_faction_name(profile["name"])[1])
-                duplicate = any(item.get("level_type") == profile["level_type"] and str(item.get("volume_id")) == inputs.volume_id and normalize_faction_name(item["name"])[1] == name[1] for item in data["entities"].values())
-                if profile["volume_id"] not in (None, inputs.volume_id):
+                name = (profile.get("level_type") or "normal", normalize_faction_name(profile.get("name") or "（未命名）")[1])
+                duplicate = any(item.get("level_type") == profile.get("level_type") and str(item.get("volume_id")) == inputs.volume_id and normalize_faction_name(item["name"])[1] == name[1] for item in data["entities"].values())
+                if profile.get("volume_id") not in (None, inputs.volume_id):
                     raise DomainApiError("VOLUME_ENTITY_RESULT_INVALID", "新势力必须归属当前卷", status_code=status)
-                if profile["parent_faction_id"] is not None and profile["parent_faction_id"] not in data["entities"]:
+                if profile.get("parent_faction_id") is not None and profile.get("parent_faction_id") not in data["entities"]:
                     raise DomainApiError("VOLUME_ENTITY_RESULT_INVALID", "父势力必须是本次读取的核心势力或同卷势力", status_code=status)
             if name in names or duplicate:
                 raise DomainApiError("VOLUME_ENTITY_NAME_CONFLICT", "新档案名称重复，请修改或选择已有档案", status_code=409 if confirming else 502)
             names.add(name)
         if kind == "characters":
-            for relation_id in row["state"]["relationship_focus_ids"]:
+            state_data = row.get("state") or {}
+            for relation_id in state_data.get("relationship_focus_ids") or []:
                 relation = data["relations"].get(relation_id)
+                # 容错：新角色不能引用关系 / 关系不存在 / 所选角色不在关系两端 → 跳过该关系焦点，不阻塞
                 if identity is None or relation is None or identity not in {relation["source_character_id"], relation["target_character_id"]}:
-                    raise DomainApiError("VOLUME_ENTITY_RESULT_INVALID", "关系焦点必须涉及所选已有角色，新角色不能引用尚不存在的关系", status_code=status)
-    if new_count > inputs.new_count or (not confirming and (new_count != inputs.new_count or existing_ids != set(inputs.selected_existing_ids))):
-        raise DomainApiError("VOLUME_ENTITY_RESULT_INVALID", "候选数量与本次新建数量或已有档案选择不一致", status_code=status)
+                    continue
+    # 自动对齐新建候选数到 prepare 阶段声明的数量（少了补空壳、多了裁剪）
+    # 原因：gemma 长上下文漂移，generate 阶段给的新建候选数和 prepare 声明的对不上
+    if new_count > inputs.new_count:
+        # 裁剪：保留所有已有档案候选 + 前 inputs.new_count 个新建候选
+        _new_rows = [r for r in result[kind] if r.get(entity_field) is None]
+        _existing_rows = [r for r in result[kind] if r.get(entity_field) is not None]
+        result[kind] = _existing_rows + _new_rows[:inputs.new_count]
+        new_count = inputs.new_count
+    elif new_count < inputs.new_count:
+        # 补空壳：补齐到 inputs.new_count 个新建候选（用户在审核界面填内容）
+        _missing = inputs.new_count - new_count
+        for i in range(_missing):
+            _default_row = {
+                "candidate_ref": f"auto_fill_{new_count + i}",
+                entity_field: None,
+                "profile": {"name": "（待命名）", "level_type": "normal", "volume_id": inputs.volume_id, "parent_faction_id": None},
+                "state": {},
+            }
+            result[kind].append(_default_row)
+        new_count = inputs.new_count
+    # existing_ids 只要求是 selected_existing_ids 的子集（states 缺失是系统读取问题，不是模型问题）
+    if not confirming and not existing_ids.issubset(selected_set):
+        raise DomainApiError("VOLUME_ENTITY_RESULT_INVALID", "候选引用了未选择的已有档案", status_code=status)
     return result
 
 

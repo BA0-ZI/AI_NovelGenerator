@@ -39,6 +39,12 @@ async def append_chapter_revision(chapter: dict, *, source: str, parent_version:
     Returns:
         无；插入失败让整个保存回滚。
     """
+    # 保存前统一清洗：干掉所有 LaTeX 公式、英文杂词等（不管前面生成路径是什么，保存前统一兜底）
+    from backend.llm.base_client import BaseLLMClient
+    chapter = dict(chapter)  # 浅拷贝，避免修改原始对象
+    if chapter.get("content"):
+        chapter["content"] = BaseLLMClient._sanitize_text_content(chapter["content"])
+
     await BaseRepository("chapter_revisions").collection.insert_one({
         "_id": ObjectId(), "chapter_id": chapter["_id"],
         **{name: chapter[name] for name in ("novel_id", "volume_id", "arc_id", "scene_id", "version", "title", "summary", "planning", "content")},
@@ -311,6 +317,10 @@ class ChapterService:
         """
         request = data if isinstance(data, ChapterUpdateV2) else ChapterUpdateV2.model_validate(data)
         fields = request.model_dump(exclude={"expected_version"}, exclude_unset=True)
+        # 保存前统一清洗：干掉所有 LaTeX 公式、多语言垃圾、英文杂词等（不管前面生成路径是什么，保存前统一兜底）
+        from backend.llm.base_client import BaseLLMClient
+        if "content" in fields and fields["content"]:
+            fields["content"] = BaseLLMClient._sanitize_text_content(fields["content"])
         if "planning" in fields:
             fields["planning"] = request.planning.model_dump()
         chapter = await ChapterService.get_chapter(chapter_id, session=session)

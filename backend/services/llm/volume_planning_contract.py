@@ -144,19 +144,18 @@ def validate_volume_skeleton_candidate_set(
     titles = [normalize_volume_text(str(item["title"])) for item in ordered]
     if any(not title for title in titles) or len(titles) != len(set(titles)):
         raise ValueError("候选卷标题必须规范唯一")
-    if sum(int(item["planning"]["target_chapter_count"]) for item in ordered) != (
-        normalized_input.total_chapter_budget
-    ):
+    if abs(
+        sum(int(item["planning"]["target_chapter_count"]) for item in ordered)
+        - normalized_input.total_chapter_budget
+    ) > max(3, int(normalized_input.total_chapter_budget * 0.1)):
         raise ValueError("候选卷章节预算总和不匹配")
-    if sum(int(item["planning"]["target_word_count"]) for item in ordered) != (
-        normalized_input.total_word_budget
-    ):
+    if abs(
+        sum(int(item["planning"]["target_word_count"]) for item in ordered)
+        - normalized_input.total_word_budget
+    ) > max(5000, int(normalized_input.total_word_budget * 0.1)):
         raise ValueError("候选卷字数预算总和不匹配")
-    for previous, current in zip(ordered, ordered[1:]):
-        if normalize_volume_text(str(previous["planning"]["end_state"])) != (
-            normalize_volume_text(str(current["planning"]["start_state"]))
-        ):
-            raise ValueError("上一卷结尾与下一卷开头未衔接，请重新生成或修改两卷衔接处")
+    # 卷间 end_state/start_state 衔接不再硬性阻断：本地模型常无法逐字衔接，
+    # 候选为可编辑预览，衔接问题交由作者在确认保存前审核修正。
 
 
 __all__ = [

@@ -16,7 +16,7 @@
           "default": 3,
           "maximum": 6,
           "minimum": 1,
-          "title": "Faction Count",
+          "title": "势力数量",
           "type": [
             "integer",
             "null"
@@ -52,7 +52,7 @@
           "default": 0,
           "maximum": 6,
           "minimum": 0,
-          "title": "Independent Faction Count",
+          "title": "独立势力数量",
           "type": "integer",
           "required": false,
           "$defs": {
@@ -83,8 +83,7 @@
         },
         "user_guidance": {
           "default": "",
-          "maxLength": 2000,
-          "title": "User Guidance",
+          "title": "作者要求",
           "type": "string",
           "required": false,
           "$defs": {
@@ -111,7 +110,8 @@
               "title": "ExistingFactionRelationTargetV2",
               "type": "object"
             }
-          }
+          },
+          "format": "textarea"
         },
         "single_faction_integrity_score": {
           "anyOf": [
@@ -125,7 +125,7 @@
             }
           ],
           "default": null,
-          "title": "Single Faction Integrity Score",
+          "title": "单一势力完整度评分",
           "required": false,
           "$defs": {
             "ExistingFactionRelationTargetV2": {
@@ -155,7 +155,7 @@
         },
         "connect_to_existing": {
           "default": false,
-          "title": "Connect To Existing",
+          "title": "关联已有",
           "type": "boolean",
           "required": false,
           "$defs": {
@@ -189,7 +189,7 @@
             "$ref": "#/$defs/ExistingFactionRelationTargetV2"
           },
           "maxItems": 12,
-          "title": "Existing Relation Targets",
+          "title": "现有关系目标",
           "type": "array",
           "required": false,
           "$defs": {
@@ -230,7 +230,7 @@
             }
           ],
           "default": null,
-          "title": "Existing Relation Score",
+          "title": "现有关系评分",
           "required": false,
           "$defs": {
             "ExistingFactionRelationTargetV2": {
@@ -271,7 +271,7 @@
           "default": 3,
           "maximum": 6,
           "minimum": 1,
-          "title": "Faction Count",
+          "title": "势力数量",
           "type": [
             "integer",
             "null"
@@ -307,7 +307,7 @@
           "default": 0,
           "maximum": 6,
           "minimum": 0,
-          "title": "Independent Faction Count",
+          "title": "独立势力数量",
           "type": "integer",
           "required": false,
           "$defs": {
@@ -338,8 +338,7 @@
         },
         "user_guidance": {
           "default": "",
-          "maxLength": 2000,
-          "title": "User Guidance",
+          "title": "作者要求",
           "type": "string",
           "required": false,
           "$defs": {
@@ -366,7 +365,8 @@
               "title": "ExistingFactionRelationTargetV2",
               "type": "object"
             }
-          }
+          },
+          "format": "textarea"
         },
         "single_faction_integrity_score": {
           "anyOf": [
@@ -380,7 +380,7 @@
             }
           ],
           "default": null,
-          "title": "Single Faction Integrity Score",
+          "title": "单一势力完整度评分",
           "required": false,
           "$defs": {
             "ExistingFactionRelationTargetV2": {
@@ -410,7 +410,7 @@
         },
         "connect_to_existing": {
           "default": false,
-          "title": "Connect To Existing",
+          "title": "关联已有",
           "type": "boolean",
           "required": false,
           "$defs": {
@@ -444,7 +444,7 @@
             "$ref": "#/$defs/ExistingFactionRelationTargetV2"
           },
           "maxItems": 12,
-          "title": "Existing Relation Targets",
+          "title": "现有关系目标",
           "type": "array",
           "required": false,
           "$defs": {
@@ -485,7 +485,7 @@
             }
           ],
           "default": null,
-          "title": "Existing Relation Score",
+          "title": "现有关系评分",
           "required": false,
           "$defs": {
             "ExistingFactionRelationTargetV2": {
@@ -579,7 +579,7 @@
     {
       "id": "create_core_factions",
       "type": "llm",
-      "label": "create_core_factions",
+      "label": "创建核心势力",
       "inputs": {
         "core_idea": {
           "type": "string"
@@ -647,7 +647,7 @@
           },
           "maxItems": 6,
           "minItems": 1,
-          "title": "Core Factions",
+          "title": "核心势力",
           "type": "array",
           "required": true,
           "$defs": {
@@ -957,7 +957,7 @@
             "$ref": "#/$defs/CoreFactionRelationSchema"
           },
           "maxItems": 20,
-          "title": "Faction Relations",
+          "title": "势力关系",
           "type": "array",
           "required": false,
           "$defs": {
@@ -1289,7 +1289,7 @@
           },
           "maxItems": 6,
           "minItems": 1,
-          "title": "Core Factions",
+          "title": "核心势力",
           "type": "array",
           "required": true,
           "$defs": {
@@ -1599,7 +1599,7 @@
             "$ref": "#/$defs/CoreFactionRelationSchema"
           },
           "maxItems": 20,
-          "title": "Faction Relations",
+          "title": "势力关系",
           "type": "array",
           "required": false,
           "$defs": {
@@ -1907,7 +1907,7 @@
           "default": 3,
           "maximum": 6,
           "minimum": 1,
-          "title": "Faction Count",
+          "title": "势力数量",
           "type": [
             "integer",
             "null"
@@ -1943,7 +1943,7 @@
           "default": 0,
           "maximum": 6,
           "minimum": 0,
-          "title": "Independent Faction Count",
+          "title": "独立势力数量",
           "type": "integer",
           "required": false,
           "$defs": {
@@ -1974,8 +1974,7 @@
         },
         "param_user_guidance": {
           "default": "",
-          "maxLength": 2000,
-          "title": "User Guidance",
+          "title": "作者要求",
           "type": "string",
           "required": false,
           "$defs": {
@@ -2002,7 +2001,8 @@
               "title": "ExistingFactionRelationTargetV2",
               "type": "object"
             }
-          }
+          },
+          "format": "textarea"
         },
         "param_single_faction_integrity_score": {
           "anyOf": [
@@ -2016,7 +2016,7 @@
             }
           ],
           "default": null,
-          "title": "Single Faction Integrity Score",
+          "title": "单一势力完整度评分",
           "required": false,
           "$defs": {
             "ExistingFactionRelationTargetV2": {
@@ -2046,7 +2046,7 @@
         },
         "param_connect_to_existing": {
           "default": false,
-          "title": "Connect To Existing",
+          "title": "关联已有",
           "type": "boolean",
           "required": false,
           "$defs": {
@@ -2080,7 +2080,7 @@
             "$ref": "#/$defs/ExistingFactionRelationTargetV2"
           },
           "maxItems": 12,
-          "title": "Existing Relation Targets",
+          "title": "现有关系目标",
           "type": "array",
           "required": false,
           "$defs": {
@@ -2121,7 +2121,7 @@
             }
           ],
           "default": null,
-          "title": "Existing Relation Score",
+          "title": "现有关系评分",
           "required": false,
           "$defs": {
             "ExistingFactionRelationTargetV2": {

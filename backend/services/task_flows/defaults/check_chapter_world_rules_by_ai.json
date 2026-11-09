@@ -16,7 +16,7 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 100,
-          "title": "Provider",
+          "title": "模型服务",
           "required": true
         }
       },
@@ -54,7 +54,7 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 100,
-          "title": "Provider",
+          "title": "模型服务",
           "required": true
         }
       },
@@ -64,7 +64,7 @@
             "$ref": "#/$defs/ChapterWorldRulesCheckIssueV1"
           },
           "maxItems": 10,
-          "title": "Issues",
+          "title": "问题",
           "type": "array",
           "required": true,
           "$defs": {
@@ -133,7 +133,7 @@
             "$ref": "#/$defs/ChapterWorldRulesCheckIssueV1"
           },
           "maxItems": 10,
-          "title": "Issues",
+          "title": "问题",
           "type": "array",
           "required": true,
           "$defs": {

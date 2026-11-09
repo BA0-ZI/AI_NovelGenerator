@@ -14,9 +14,9 @@
       "outputs": {
         "user_guidance": {
           "default": "",
-          "maxLength": 2000,
-          "title": "User Guidance",
-          "type": "string"
+          "title": "作者要求",
+          "type": "string",
+          "format": "textarea"
         },
         "selection_mode": {
           "default": "auto",
@@ -24,14 +24,14 @@
             "manual",
             "auto"
           ],
-          "title": "Selection Mode",
+          "title": "选择模式",
           "type": "string"
         },
         "new_count": {
           "default": 2,
           "maximum": 20,
           "minimum": 0,
-          "title": "New Count",
+          "title": "新增数量",
           "type": "integer"
         },
         "selected_existing_ids": {
@@ -41,7 +41,7 @@
             "type": "string"
           },
           "maxItems": 20,
-          "title": "Selected Existing Ids",
+          "title": "已选现有 ID",
           "type": "array",
           "default": []
         }
@@ -58,7 +58,7 @@
           "default": 2,
           "maximum": 20,
           "minimum": 0,
-          "title": "New Count",
+          "title": "新增数量",
           "type": "integer"
         },
         "selected_existing_ids": {
@@ -68,15 +68,15 @@
             "type": "string"
           },
           "maxItems": 20,
-          "title": "Selected Existing Ids",
+          "title": "已选现有 ID",
           "type": "array",
           "default": []
         },
         "user_guidance": {
           "default": "",
-          "maxLength": 2000,
-          "title": "User Guidance",
-          "type": "string"
+          "title": "作者要求",
+          "type": "string",
+          "format": "textarea"
         },
         "selection_mode": {
           "default": "auto",
@@ -84,7 +84,7 @@
             "manual",
             "auto"
           ],
-          "title": "Selection Mode",
+          "title": "选择模式",
           "type": "string"
         }
       },
@@ -106,10 +106,10 @@
         },
         "user_guidance": {
           "default": "",
-          "maxLength": 2000,
-          "title": "User Guidance",
+          "title": "作者要求",
           "type": "string",
-          "required": false
+          "required": false,
+          "format": "textarea"
         }
       },
       "outputs": {
@@ -120,7 +120,7 @@
             "schema_version": {
               "const": 1,
               "default": 1,
-              "title": "Schema Version",
+              "title": "Schema 版本",
               "type": "integer"
             },
             "target": {
@@ -131,7 +131,7 @@
                   "maxLength": 24,
                   "minLength": 24,
                   "pattern": "^[0-9a-fA-F]{24}$",
-                  "title": "Novel Id",
+                  "title": "小说 ID",
                   "type": "string"
                 },
                 "target_type": {
@@ -141,15 +141,46 @@
                     "scene",
                     "chapter"
                   ],
-                  "title": "Target Type",
+                  "title": "目标类型",
                   "type": "string"
                 },
                 "target_id": {
                   "maxLength": 24,
                   "minLength": 24,
                   "pattern": "^[0-9a-fA-F]{24}$",
-                  "title": "Target Id",
+                  "title": "目标 ID",
                   "type": "string"
+                },
+                "reading_version": {
+                  "anyOf": [
+                    {
+                      "const": 1,
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Reading Version"
+                },
+                "reading_intent": {
+                  "anyOf": [
+                    {
+                      "enum": [
+                        "chapter_before",
+                        "chapter_after",
+                        "append",
+                        "replan"
+                      ],
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Reading Intent"
                 }
               },
               "required": [
@@ -163,7 +194,7 @@
             "boundaries": {
               "maxLength": 12000,
               "minLength": 1,
-              "title": "Boundaries",
+              "title": "边界",
               "type": "string"
             },
             "selected_entities": {
@@ -175,7 +206,7 @@
                     "type": "string"
                   },
                   "maxItems": 50,
-                  "title": "Character Ids",
+                  "title": "角色 ID",
                   "type": "array"
                 },
                 "faction_ids": {
@@ -183,7 +214,7 @@
                     "type": "string"
                   },
                   "maxItems": 50,
-                  "title": "Faction Ids",
+                  "title": "势力 ID",
                   "type": "array"
                 },
                 "location_ids": {
@@ -191,7 +222,7 @@
                     "type": "string"
                   },
                   "maxItems": 50,
-                  "title": "Location Ids",
+                  "title": "地点 ID",
                   "type": "array"
                 },
                 "item_ids": {
@@ -199,7 +230,7 @@
                     "type": "string"
                   },
                   "maxItems": 50,
-                  "title": "Item Ids",
+                  "title": "物品 ID",
                   "type": "array"
                 },
                 "rule_ids": {
@@ -207,7 +238,7 @@
                     "type": "string"
                   },
                   "maxItems": 50,
-                  "title": "Rule Ids",
+                  "title": "规则 ID",
                   "type": "array"
                 }
               },
@@ -227,19 +258,19 @@
                       "item",
                       "world_rule"
                     ],
-                    "title": "Resource Type",
+                    "title": "资源类型",
                     "type": "string"
                   },
                   "id": {
                     "maxLength": 100,
                     "minLength": 1,
-                    "title": "Id",
+                    "title": "ID",
                     "type": "string"
                   },
                   "reason": {
                     "maxLength": 2000,
                     "minLength": 1,
-                    "title": "Reason",
+                    "title": "原因",
                     "type": "string"
                   }
                 },
@@ -252,7 +283,7 @@
                 "type": "object"
               },
               "maxItems": 250,
-              "title": "Selection Reasons",
+              "title": "选择理由",
               "type": "array"
             },
             "entity_needs": {
@@ -268,19 +299,19 @@
                       "item",
                       "world_rule"
                     ],
-                    "title": "Resource Type",
+                    "title": "资源类型",
                     "type": "string"
                   },
                   "role": {
                     "maxLength": 1000,
                     "minLength": 1,
-                    "title": "Role",
+                    "title": "职责",
                     "type": "string"
                   },
                   "reason": {
                     "maxLength": 2000,
                     "minLength": 1,
-                    "title": "Reason",
+                    "title": "原因",
                     "type": "string"
                   }
                 },
@@ -293,7 +324,7 @@
                 "type": "object"
               },
               "maxItems": 150,
-              "title": "Entity Needs",
+              "title": "实体需求",
               "type": "array"
             },
             "new_counts": {
@@ -304,35 +335,35 @@
                   "default": 0,
                   "maximum": 30,
                   "minimum": 0,
-                  "title": "Character",
+                  "title": "角色",
                   "type": "integer"
                 },
                 "faction": {
                   "default": 0,
                   "maximum": 30,
                   "minimum": 0,
-                  "title": "Faction",
+                  "title": "势力",
                   "type": "integer"
                 },
                 "location": {
                   "default": 0,
                   "maximum": 30,
                   "minimum": 0,
-                  "title": "Location",
+                  "title": "地点",
                   "type": "integer"
                 },
                 "item": {
                   "default": 0,
                   "maximum": 30,
                   "minimum": 0,
-                  "title": "Item",
+                  "title": "物品",
                   "type": "integer"
                 },
                 "world_rule": {
                   "default": 0,
                   "maximum": 30,
                   "minimum": 0,
-                  "title": "World Rule",
+                  "title": "世界规则",
                   "type": "integer"
                 }
               },
@@ -343,19 +374,19 @@
               "description": "本次应新增的下级数量。仍有未覆盖剧情时为1至20；全部剧情已被现有下级覆盖时必须为0。遵守本次输入明确给定的固定数量，auto时自主估计。",
               "maximum": 20,
               "minimum": 0,
-              "title": "Suggested Count",
+              "title": "建议数量",
               "type": "integer"
             },
             "coverage": {
               "description": "分别说明已有下级已覆盖什么、还剩什么；当前没有下级时不能声称剧情已经覆盖。",
               "maxLength": 12000,
               "minLength": 1,
-              "title": "Coverage",
+              "title": "覆盖范围",
               "type": "string"
             },
             "remaining": {
               "description": "是否还有需要本次生成的未覆盖内容。true表示仍需生成，suggested_count必须大于0；false表示已有内容完整覆盖、无需新增，suggested_count必须为0。不是‘资料是否还需补齐’。",
-              "title": "Remaining",
+              "title": "剩余",
               "type": "boolean"
             },
             "missing_required": {
@@ -366,13 +397,13 @@
                   "field": {
                     "maxLength": 200,
                     "minLength": 1,
-                    "title": "Field",
+                    "title": "字段",
                     "type": "string"
                   },
                   "message": {
                     "maxLength": 2000,
                     "minLength": 1,
-                    "title": "Message",
+                    "title": "消息",
                     "type": "string"
                   }
                 },
@@ -384,7 +415,7 @@
                 "type": "object"
               },
               "maxItems": 100,
-              "title": "Missing Required",
+              "title": "缺少必填项",
               "type": "array"
             },
             "entity_details": {
@@ -393,7 +424,7 @@
                 "type": "object"
               },
               "maxItems": 250,
-              "title": "Entity Details",
+              "title": "实体详情",
               "type": "array"
             },
             "volume_states": {
@@ -402,7 +433,7 @@
                 "type": "object"
               },
               "maxItems": 500,
-              "title": "Volume States",
+              "title": "分卷状态",
               "type": "array"
             },
             "relations": {
@@ -411,7 +442,7 @@
                 "type": "object"
               },
               "maxItems": 500,
-              "title": "Relations",
+              "title": "关系",
               "type": "array"
             },
             "previous_text": {
@@ -420,7 +451,7 @@
                 "type": "object"
               },
               "maxItems": 100,
-              "title": "Previous Text",
+              "title": "前文",
               "type": "array"
             }
           },
@@ -441,8 +472,8 @@
         "provider": "",
         "model": "",
         "parameters": {},
-        "max_rounds": 8,
-        "max_tool_calls": 24,
+        "max_rounds": 100,
+        "max_tool_calls": 300,
         "deduplicate_tool_budget": true,
         "reference_unchanged_entities": true,
         "tools": [
@@ -492,7 +523,7 @@
           "default": 2,
           "maximum": 20,
           "minimum": 0,
-          "title": "New Count",
+          "title": "新增数量",
           "type": "integer"
         },
         "selected_existing_ids": {
@@ -502,15 +533,15 @@
             "type": "string"
           },
           "maxItems": 20,
-          "title": "Selected Existing Ids",
+          "title": "已选现有 ID",
           "type": "array",
           "default": []
         },
         "user_guidance": {
           "default": "",
-          "maxLength": 2000,
-          "title": "User Guidance",
-          "type": "string"
+          "title": "作者要求",
+          "type": "string",
+          "format": "textarea"
         },
         "selection_mode": {
           "default": "auto",
@@ -518,7 +549,7 @@
             "manual",
             "auto"
           ],
-          "title": "Selection Mode",
+          "title": "选择模式",
           "type": "string"
         },
         "prepared_context": {
@@ -528,7 +559,7 @@
             "schema_version": {
               "const": 1,
               "default": 1,
-              "title": "Schema Version",
+              "title": "Schema 版本",
               "type": "integer"
             },
             "target": {
@@ -539,7 +570,7 @@
                   "maxLength": 24,
                   "minLength": 24,
                   "pattern": "^[0-9a-fA-F]{24}$",
-                  "title": "Novel Id",
+                  "title": "小说 ID",
                   "type": "string"
                 },
                 "target_type": {
@@ -549,15 +580,46 @@
                     "scene",
                     "chapter"
                   ],
-                  "title": "Target Type",
+                  "title": "目标类型",
                   "type": "string"
                 },
                 "target_id": {
                   "maxLength": 24,
                   "minLength": 24,
                   "pattern": "^[0-9a-fA-F]{24}$",
-                  "title": "Target Id",
+                  "title": "目标 ID",
                   "type": "string"
+                },
+                "reading_version": {
+                  "anyOf": [
+                    {
+                      "const": 1,
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Reading Version"
+                },
+                "reading_intent": {
+                  "anyOf": [
+                    {
+                      "enum": [
+                        "chapter_before",
+                        "chapter_after",
+                        "append",
+                        "replan"
+                      ],
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Reading Intent"
                 }
               },
               "required": [
@@ -571,7 +633,7 @@
             "boundaries": {
               "maxLength": 12000,
               "minLength": 1,
-              "title": "Boundaries",
+              "title": "边界",
               "type": "string"
             },
             "selected_entities": {
@@ -583,7 +645,7 @@
                     "type": "string"
                   },
                   "maxItems": 50,
-                  "title": "Character Ids",
+                  "title": "角色 ID",
                   "type": "array"
                 },
                 "faction_ids": {
@@ -591,7 +653,7 @@
                     "type": "string"
                   },
                   "maxItems": 50,
-                  "title": "Faction Ids",
+                  "title": "势力 ID",
                   "type": "array"
                 },
                 "location_ids": {
@@ -599,7 +661,7 @@
                     "type": "string"
                   },
                   "maxItems": 50,
-                  "title": "Location Ids",
+                  "title": "地点 ID",
                   "type": "array"
                 },
                 "item_ids": {
@@ -607,7 +669,7 @@
                     "type": "string"
                   },
                   "maxItems": 50,
-                  "title": "Item Ids",
+                  "title": "物品 ID",
                   "type": "array"
                 },
                 "rule_ids": {
@@ -615,7 +677,7 @@
                     "type": "string"
                   },
                   "maxItems": 50,
-                  "title": "Rule Ids",
+                  "title": "规则 ID",
                   "type": "array"
                 }
               },
@@ -635,19 +697,19 @@
                       "item",
                       "world_rule"
                     ],
-                    "title": "Resource Type",
+                    "title": "资源类型",
                     "type": "string"
                   },
                   "id": {
                     "maxLength": 100,
                     "minLength": 1,
-                    "title": "Id",
+                    "title": "ID",
                     "type": "string"
                   },
                   "reason": {
                     "maxLength": 2000,
                     "minLength": 1,
-                    "title": "Reason",
+                    "title": "原因",
                     "type": "string"
                   }
                 },
@@ -660,7 +722,7 @@
                 "type": "object"
               },
               "maxItems": 250,
-              "title": "Selection Reasons",
+              "title": "选择理由",
               "type": "array"
             },
             "entity_needs": {
@@ -676,19 +738,19 @@
                       "item",
                       "world_rule"
                     ],
-                    "title": "Resource Type",
+                    "title": "资源类型",
                     "type": "string"
                   },
                   "role": {
                     "maxLength": 1000,
                     "minLength": 1,
-                    "title": "Role",
+                    "title": "职责",
                     "type": "string"
                   },
                   "reason": {
                     "maxLength": 2000,
                     "minLength": 1,
-                    "title": "Reason",
+                    "title": "原因",
                     "type": "string"
                   }
                 },
@@ -701,7 +763,7 @@
                 "type": "object"
               },
               "maxItems": 150,
-              "title": "Entity Needs",
+              "title": "实体需求",
               "type": "array"
             },
             "new_counts": {
@@ -712,35 +774,35 @@
                   "default": 0,
                   "maximum": 30,
                   "minimum": 0,
-                  "title": "Character",
+                  "title": "角色",
                   "type": "integer"
                 },
                 "faction": {
                   "default": 0,
                   "maximum": 30,
                   "minimum": 0,
-                  "title": "Faction",
+                  "title": "势力",
                   "type": "integer"
                 },
                 "location": {
                   "default": 0,
                   "maximum": 30,
                   "minimum": 0,
-                  "title": "Location",
+                  "title": "地点",
                   "type": "integer"
                 },
                 "item": {
                   "default": 0,
                   "maximum": 30,
                   "minimum": 0,
-                  "title": "Item",
+                  "title": "物品",
                   "type": "integer"
                 },
                 "world_rule": {
                   "default": 0,
                   "maximum": 30,
                   "minimum": 0,
-                  "title": "World Rule",
+                  "title": "世界规则",
                   "type": "integer"
                 }
               },
@@ -751,19 +813,19 @@
               "description": "本次应新增的下级数量。仍有未覆盖剧情时为1至20；全部剧情已被现有下级覆盖时必须为0。遵守本次输入明确给定的固定数量，auto时自主估计。",
               "maximum": 20,
               "minimum": 0,
-              "title": "Suggested Count",
+              "title": "建议数量",
               "type": "integer"
             },
             "coverage": {
               "description": "分别说明已有下级已覆盖什么、还剩什么；当前没有下级时不能声称剧情已经覆盖。",
               "maxLength": 12000,
               "minLength": 1,
-              "title": "Coverage",
+              "title": "覆盖范围",
               "type": "string"
             },
             "remaining": {
               "description": "是否还有需要本次生成的未覆盖内容。true表示仍需生成，suggested_count必须大于0；false表示已有内容完整覆盖、无需新增，suggested_count必须为0。不是‘资料是否还需补齐’。",
-              "title": "Remaining",
+              "title": "剩余",
               "type": "boolean"
             },
             "missing_required": {
@@ -774,13 +836,13 @@
                   "field": {
                     "maxLength": 200,
                     "minLength": 1,
-                    "title": "Field",
+                    "title": "字段",
                     "type": "string"
                   },
                   "message": {
                     "maxLength": 2000,
                     "minLength": 1,
-                    "title": "Message",
+                    "title": "消息",
                     "type": "string"
                   }
                 },
@@ -792,7 +854,7 @@
                 "type": "object"
               },
               "maxItems": 100,
-              "title": "Missing Required",
+              "title": "缺少必填项",
               "type": "array"
             },
             "entity_details": {
@@ -801,7 +863,7 @@
                 "type": "object"
               },
               "maxItems": 250,
-              "title": "Entity Details",
+              "title": "实体详情",
               "type": "array"
             },
             "volume_states": {
@@ -810,7 +872,7 @@
                 "type": "object"
               },
               "maxItems": 500,
-              "title": "Volume States",
+              "title": "分卷状态",
               "type": "array"
             },
             "relations": {
@@ -819,7 +881,7 @@
                 "type": "object"
               },
               "maxItems": 500,
-              "title": "Relations",
+              "title": "关系",
               "type": "array"
             },
             "previous_text": {
@@ -828,7 +890,7 @@
                 "type": "object"
               },
               "maxItems": 100,
-              "title": "Previous Text",
+              "title": "前文",
               "type": "array"
             }
           },
@@ -866,7 +928,7 @@
             "schema_version": {
               "const": 1,
               "default": 1,
-              "title": "Schema Version",
+              "title": "Schema 版本",
               "type": "integer"
             },
             "target": {
@@ -877,7 +939,7 @@
                   "maxLength": 24,
                   "minLength": 24,
                   "pattern": "^[0-9a-fA-F]{24}$",
-                  "title": "Novel Id",
+                  "title": "小说 ID",
                   "type": "string"
                 },
                 "target_type": {
@@ -887,15 +949,46 @@
                     "scene",
                     "chapter"
                   ],
-                  "title": "Target Type",
+                  "title": "目标类型",
                   "type": "string"
                 },
                 "target_id": {
                   "maxLength": 24,
                   "minLength": 24,
                   "pattern": "^[0-9a-fA-F]{24}$",
-                  "title": "Target Id",
+                  "title": "目标 ID",
                   "type": "string"
+                },
+                "reading_version": {
+                  "anyOf": [
+                    {
+                      "const": 1,
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Reading Version"
+                },
+                "reading_intent": {
+                  "anyOf": [
+                    {
+                      "enum": [
+                        "chapter_before",
+                        "chapter_after",
+                        "append",
+                        "replan"
+                      ],
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Reading Intent"
                 }
               },
               "required": [
@@ -909,7 +1002,7 @@
             "boundaries": {
               "maxLength": 12000,
               "minLength": 1,
-              "title": "Boundaries",
+              "title": "边界",
               "type": "string"
             },
             "selected_entities": {
@@ -921,7 +1014,7 @@
                     "type": "string"
                   },
                   "maxItems": 50,
-                  "title": "Character Ids",
+                  "title": "角色 ID",
                   "type": "array"
                 },
                 "faction_ids": {
@@ -929,7 +1022,7 @@
                     "type": "string"
                   },
                   "maxItems": 50,
-                  "title": "Faction Ids",
+                  "title": "势力 ID",
                   "type": "array"
                 },
                 "location_ids": {
@@ -937,7 +1030,7 @@
                     "type": "string"
                   },
                   "maxItems": 50,
-                  "title": "Location Ids",
+                  "title": "地点 ID",
                   "type": "array"
                 },
                 "item_ids": {
@@ -945,7 +1038,7 @@
                     "type": "string"
                   },
                   "maxItems": 50,
-                  "title": "Item Ids",
+                  "title": "物品 ID",
                   "type": "array"
                 },
                 "rule_ids": {
@@ -953,7 +1046,7 @@
                     "type": "string"
                   },
                   "maxItems": 50,
-                  "title": "Rule Ids",
+                  "title": "规则 ID",
                   "type": "array"
                 }
               },
@@ -973,19 +1066,19 @@
                       "item",
                       "world_rule"
                     ],
-                    "title": "Resource Type",
+                    "title": "资源类型",
                     "type": "string"
                   },
                   "id": {
                     "maxLength": 100,
                     "minLength": 1,
-                    "title": "Id",
+                    "title": "ID",
                     "type": "string"
                   },
                   "reason": {
                     "maxLength": 2000,
                     "minLength": 1,
-                    "title": "Reason",
+                    "title": "原因",
                     "type": "string"
                   }
                 },
@@ -998,7 +1091,7 @@
                 "type": "object"
               },
               "maxItems": 250,
-              "title": "Selection Reasons",
+              "title": "选择理由",
               "type": "array"
             },
             "entity_needs": {
@@ -1014,19 +1107,19 @@
                       "item",
                       "world_rule"
                     ],
-                    "title": "Resource Type",
+                    "title": "资源类型",
                     "type": "string"
                   },
                   "role": {
                     "maxLength": 1000,
                     "minLength": 1,
-                    "title": "Role",
+                    "title": "职责",
                     "type": "string"
                   },
                   "reason": {
                     "maxLength": 2000,
                     "minLength": 1,
-                    "title": "Reason",
+                    "title": "原因",
                     "type": "string"
                   }
                 },
@@ -1039,7 +1132,7 @@
                 "type": "object"
               },
               "maxItems": 150,
-              "title": "Entity Needs",
+              "title": "实体需求",
               "type": "array"
             },
             "new_counts": {
@@ -1050,35 +1143,35 @@
                   "default": 0,
                   "maximum": 30,
                   "minimum": 0,
-                  "title": "Character",
+                  "title": "角色",
                   "type": "integer"
                 },
                 "faction": {
                   "default": 0,
                   "maximum": 30,
                   "minimum": 0,
-                  "title": "Faction",
+                  "title": "势力",
                   "type": "integer"
                 },
                 "location": {
                   "default": 0,
                   "maximum": 30,
                   "minimum": 0,
-                  "title": "Location",
+                  "title": "地点",
                   "type": "integer"
                 },
                 "item": {
                   "default": 0,
                   "maximum": 30,
                   "minimum": 0,
-                  "title": "Item",
+                  "title": "物品",
                   "type": "integer"
                 },
                 "world_rule": {
                   "default": 0,
                   "maximum": 30,
                   "minimum": 0,
-                  "title": "World Rule",
+                  "title": "世界规则",
                   "type": "integer"
                 }
               },
@@ -1089,19 +1182,19 @@
               "description": "本次应新增的下级数量。仍有未覆盖剧情时为1至20；全部剧情已被现有下级覆盖时必须为0。遵守本次输入明确给定的固定数量，auto时自主估计。",
               "maximum": 20,
               "minimum": 0,
-              "title": "Suggested Count",
+              "title": "建议数量",
               "type": "integer"
             },
             "coverage": {
               "description": "分别说明已有下级已覆盖什么、还剩什么；当前没有下级时不能声称剧情已经覆盖。",
               "maxLength": 12000,
               "minLength": 1,
-              "title": "Coverage",
+              "title": "覆盖范围",
               "type": "string"
             },
             "remaining": {
               "description": "是否还有需要本次生成的未覆盖内容。true表示仍需生成，suggested_count必须大于0；false表示已有内容完整覆盖、无需新增，suggested_count必须为0。不是‘资料是否还需补齐’。",
-              "title": "Remaining",
+              "title": "剩余",
               "type": "boolean"
             },
             "missing_required": {
@@ -1112,13 +1205,13 @@
                   "field": {
                     "maxLength": 200,
                     "minLength": 1,
-                    "title": "Field",
+                    "title": "字段",
                     "type": "string"
                   },
                   "message": {
                     "maxLength": 2000,
                     "minLength": 1,
-                    "title": "Message",
+                    "title": "消息",
                     "type": "string"
                   }
                 },
@@ -1130,7 +1223,7 @@
                 "type": "object"
               },
               "maxItems": 100,
-              "title": "Missing Required",
+              "title": "缺少必填项",
               "type": "array"
             },
             "entity_details": {
@@ -1139,7 +1232,7 @@
                 "type": "object"
               },
               "maxItems": 250,
-              "title": "Entity Details",
+              "title": "实体详情",
               "type": "array"
             },
             "volume_states": {
@@ -1148,7 +1241,7 @@
                 "type": "object"
               },
               "maxItems": 500,
-              "title": "Volume States",
+              "title": "分卷状态",
               "type": "array"
             },
             "relations": {
@@ -1157,7 +1250,7 @@
                 "type": "object"
               },
               "maxItems": 500,
-              "title": "Relations",
+              "title": "关系",
               "type": "array"
             },
             "previous_text": {
@@ -1166,7 +1259,7 @@
                 "type": "object"
               },
               "maxItems": 100,
-              "title": "Previous Text",
+              "title": "前文",
               "type": "array"
             }
           },
@@ -1189,7 +1282,7 @@
             "properties": {
               "candidate_ref": {
                 "pattern": "^[a-z][a-z0-9_]{0,63}$",
-                "title": "Candidate Ref",
+                "title": "候选引用",
                 "type": "string"
               },
               "faction_id": {
@@ -1204,7 +1297,7 @@
                   }
                 ],
                 "default": null,
-                "title": "Faction Id"
+                "title": "势力 ID"
               },
               "profile": {
                 "anyOf": [
@@ -1215,7 +1308,7 @@
                       "name": {
                         "maxLength": 80,
                         "minLength": 1,
-                        "title": "Name",
+                        "title": "名称",
                         "type": "string"
                       },
                       "alias": {
@@ -1225,13 +1318,13 @@
                           "type": "string"
                         },
                         "maxItems": 10,
-                        "title": "Alias",
+                        "title": "别名",
                         "type": "array"
                       },
                       "faction_type": {
                         "default": "",
                         "maxLength": 80,
-                        "title": "Faction Type",
+                        "title": "势力类型",
                         "type": "string"
                       },
                       "level_type": {
@@ -1240,7 +1333,7 @@
                           "volume",
                           "local"
                         ],
-                        "title": "Level Type",
+                        "title": "等级类型",
                         "type": "string"
                       },
                       "parent_faction_id": {
@@ -1254,7 +1347,7 @@
                           }
                         ],
                         "default": null,
-                        "title": "Parent Faction Id"
+                        "title": "上级势力 ID"
                       },
                       "volume_id": {
                         "anyOf": [
@@ -1267,30 +1360,30 @@
                           }
                         ],
                         "default": null,
-                        "title": "Volume Id"
+                        "title": "分卷 ID"
                       },
                       "positioning": {
                         "default": "",
                         "maxLength": 500,
-                        "title": "Positioning",
+                        "title": "定位",
                         "type": "string"
                       },
                       "public_stance": {
                         "default": "",
                         "maxLength": 500,
-                        "title": "Public Stance",
+                        "title": "公开立场",
                         "type": "string"
                       },
                       "core_goal": {
                         "default": "",
                         "maxLength": 500,
-                        "title": "Core Goal",
+                        "title": "核心目标",
                         "type": "string"
                       },
                       "hidden_goal": {
                         "default": "",
                         "maxLength": 500,
-                        "title": "Hidden Goal",
+                        "title": "隐藏目标",
                         "type": "string"
                       },
                       "resources_and_advantages": {
@@ -1300,13 +1393,13 @@
                           "type": "string"
                         },
                         "maxItems": 6,
-                        "title": "Resources And Advantages",
+                        "title": "资源与优势",
                         "type": "array"
                       },
                       "organization_style": {
                         "default": "",
                         "maxLength": 300,
-                        "title": "Organization Style",
+                        "title": "组织风格",
                         "type": "string"
                       },
                       "core_values": {
@@ -1316,30 +1409,30 @@
                           "type": "string"
                         },
                         "maxItems": 6,
-                        "title": "Core Values",
+                        "title": "核心价值观",
                         "type": "array"
                       },
                       "conflict_with_mainline": {
                         "default": "",
                         "maxLength": 600,
-                        "title": "Conflict With Mainline",
+                        "title": "与主线冲突",
                         "type": "string"
                       },
                       "is_public": {
                         "default": true,
-                        "title": "Is Public",
+                        "title": "是否公开",
                         "type": "boolean"
                       },
                       "influence_scope": {
                         "default": "",
                         "maxLength": 80,
-                        "title": "Influence Scope",
+                        "title": "影响范围",
                         "type": "string"
                       },
                       "expandability": {
                         "default": "",
                         "maxLength": 500,
-                        "title": "Expandability",
+                        "title": "扩展性",
                         "type": "string"
                       },
                       "tags": {
@@ -1349,17 +1442,17 @@
                           "type": "string"
                         },
                         "maxItems": 8,
-                        "title": "Tags",
+                        "title": "标签",
                         "type": "array"
                       },
                       "first_appearance_volume_id": {
                         "default": null,
-                        "title": "First Appearance Volume Id",
+                        "title": "首次出场分卷 ID",
                         "type": "null"
                       },
                       "first_appearance_chapter_id": {
                         "default": null,
-                        "title": "First Appearance Chapter Id",
+                        "title": "首次出场章节 ID",
                         "type": "null"
                       },
                       "sort_order": {
@@ -1373,7 +1466,7 @@
                           }
                         ],
                         "default": null,
-                        "title": "Sort Order"
+                        "title": "排序"
                       }
                     },
                     "required": [
@@ -1398,31 +1491,31 @@
                       "secondary",
                       "background"
                     ],
-                    "title": "Participation Scope",
+                    "title": "参与范围",
                     "type": "string"
                   },
                   "current_goal": {
                     "maxLength": 1000,
                     "minLength": 1,
-                    "title": "Current Goal",
+                    "title": "当前目标",
                     "type": "string"
                   },
                   "start_state": {
                     "maxLength": 2000,
                     "minLength": 1,
-                    "title": "Start State",
+                    "title": "起始状态",
                     "type": "string"
                   },
                   "planned_end_state": {
                     "default": "",
                     "maxLength": 2000,
-                    "title": "Planned End State",
+                    "title": "计划结束状态",
                     "type": "string"
                   },
                   "power_level": {
                     "maximum": 5,
                     "minimum": 1,
-                    "title": "Power Level",
+                    "title": "实力等级",
                     "type": "integer"
                   },
                   "resources": {
@@ -1431,25 +1524,25 @@
                       "type": "string"
                     },
                     "maxItems": 20,
-                    "title": "Resources",
+                    "title": "资源",
                     "type": "array"
                   },
                   "public_stance": {
                     "default": "",
                     "maxLength": 1000,
-                    "title": "Public Stance",
+                    "title": "公开立场",
                     "type": "string"
                   },
                   "hidden_agenda": {
                     "default": "",
                     "maxLength": 1000,
-                    "title": "Hidden Agenda",
+                    "title": "隐藏意图",
                     "type": "string"
                   },
                   "influence_scope": {
                     "default": "",
                     "maxLength": 1000,
-                    "title": "Influence Scope",
+                    "title": "影响范围",
                     "type": "string"
                   },
                   "active_status": {
@@ -1459,7 +1552,7 @@
                       "dormant",
                       "dissolved"
                     ],
-                    "title": "Active Status",
+                    "title": "活跃状态",
                     "type": "string"
                   }
                 },
@@ -1483,7 +1576,7 @@
                   }
                 ],
                 "default": null,
-                "title": "State Expected Version"
+                "title": "状态期望版本"
               }
             },
             "required": [
@@ -1494,7 +1587,7 @@
             "type": "object"
           },
           "maxItems": 20,
-          "title": "Factions",
+          "title": "势力",
           "type": "array"
         }
       },
@@ -1521,7 +1614,7 @@
             "properties": {
               "candidate_ref": {
                 "pattern": "^[a-z][a-z0-9_]{0,63}$",
-                "title": "Candidate Ref",
+                "title": "候选引用",
                 "type": "string"
               },
               "faction_id": {
@@ -1536,7 +1629,7 @@
                   }
                 ],
                 "default": null,
-                "title": "Faction Id"
+                "title": "势力 ID"
               },
               "profile": {
                 "anyOf": [
@@ -1547,7 +1640,7 @@
                       "name": {
                         "maxLength": 80,
                         "minLength": 1,
-                        "title": "Name",
+                        "title": "名称",
                         "type": "string"
                       },
                       "alias": {
@@ -1557,13 +1650,13 @@
                           "type": "string"
                         },
                         "maxItems": 10,
-                        "title": "Alias",
+                        "title": "别名",
                         "type": "array"
                       },
                       "faction_type": {
                         "default": "",
                         "maxLength": 80,
-                        "title": "Faction Type",
+                        "title": "势力类型",
                         "type": "string"
                       },
                       "level_type": {
@@ -1572,7 +1665,7 @@
                           "volume",
                           "local"
                         ],
-                        "title": "Level Type",
+                        "title": "等级类型",
                         "type": "string"
                       },
                       "parent_faction_id": {
@@ -1586,7 +1679,7 @@
                           }
                         ],
                         "default": null,
-                        "title": "Parent Faction Id"
+                        "title": "上级势力 ID"
                       },
                       "volume_id": {
                         "anyOf": [
@@ -1599,30 +1692,30 @@
                           }
                         ],
                         "default": null,
-                        "title": "Volume Id"
+                        "title": "分卷 ID"
                       },
                       "positioning": {
                         "default": "",
                         "maxLength": 500,
-                        "title": "Positioning",
+                        "title": "定位",
                         "type": "string"
                       },
                       "public_stance": {
                         "default": "",
                         "maxLength": 500,
-                        "title": "Public Stance",
+                        "title": "公开立场",
                         "type": "string"
                       },
                       "core_goal": {
                         "default": "",
                         "maxLength": 500,
-                        "title": "Core Goal",
+                        "title": "核心目标",
                         "type": "string"
                       },
                       "hidden_goal": {
                         "default": "",
                         "maxLength": 500,
-                        "title": "Hidden Goal",
+                        "title": "隐藏目标",
                         "type": "string"
                       },
                       "resources_and_advantages": {
@@ -1632,13 +1725,13 @@
                           "type": "string"
                         },
                         "maxItems": 6,
-                        "title": "Resources And Advantages",
+                        "title": "资源与优势",
                         "type": "array"
                       },
                       "organization_style": {
                         "default": "",
                         "maxLength": 300,
-                        "title": "Organization Style",
+                        "title": "组织风格",
                         "type": "string"
                       },
                       "core_values": {
@@ -1648,30 +1741,30 @@
                           "type": "string"
                         },
                         "maxItems": 6,
-                        "title": "Core Values",
+                        "title": "核心价值观",
                         "type": "array"
                       },
                       "conflict_with_mainline": {
                         "default": "",
                         "maxLength": 600,
-                        "title": "Conflict With Mainline",
+                        "title": "与主线冲突",
                         "type": "string"
                       },
                       "is_public": {
                         "default": true,
-                        "title": "Is Public",
+                        "title": "是否公开",
                         "type": "boolean"
                       },
                       "influence_scope": {
                         "default": "",
                         "maxLength": 80,
-                        "title": "Influence Scope",
+                        "title": "影响范围",
                         "type": "string"
                       },
                       "expandability": {
                         "default": "",
                         "maxLength": 500,
-                        "title": "Expandability",
+                        "title": "扩展性",
                         "type": "string"
                       },
                       "tags": {
@@ -1681,17 +1774,17 @@
                           "type": "string"
                         },
                         "maxItems": 8,
-                        "title": "Tags",
+                        "title": "标签",
                         "type": "array"
                       },
                       "first_appearance_volume_id": {
                         "default": null,
-                        "title": "First Appearance Volume Id",
+                        "title": "首次出场分卷 ID",
                         "type": "null"
                       },
                       "first_appearance_chapter_id": {
                         "default": null,
-                        "title": "First Appearance Chapter Id",
+                        "title": "首次出场章节 ID",
                         "type": "null"
                       },
                       "sort_order": {
@@ -1705,7 +1798,7 @@
                           }
                         ],
                         "default": null,
-                        "title": "Sort Order"
+                        "title": "排序"
                       }
                     },
                     "required": [
@@ -1730,31 +1823,31 @@
                       "secondary",
                       "background"
                     ],
-                    "title": "Participation Scope",
+                    "title": "参与范围",
                     "type": "string"
                   },
                   "current_goal": {
                     "maxLength": 1000,
                     "minLength": 1,
-                    "title": "Current Goal",
+                    "title": "当前目标",
                     "type": "string"
                   },
                   "start_state": {
                     "maxLength": 2000,
                     "minLength": 1,
-                    "title": "Start State",
+                    "title": "起始状态",
                     "type": "string"
                   },
                   "planned_end_state": {
                     "default": "",
                     "maxLength": 2000,
-                    "title": "Planned End State",
+                    "title": "计划结束状态",
                     "type": "string"
                   },
                   "power_level": {
                     "maximum": 5,
                     "minimum": 1,
-                    "title": "Power Level",
+                    "title": "实力等级",
                     "type": "integer"
                   },
                   "resources": {
@@ -1763,25 +1856,25 @@
                       "type": "string"
                     },
                     "maxItems": 20,
-                    "title": "Resources",
+                    "title": "资源",
                     "type": "array"
                   },
                   "public_stance": {
                     "default": "",
                     "maxLength": 1000,
-                    "title": "Public Stance",
+                    "title": "公开立场",
                     "type": "string"
                   },
                   "hidden_agenda": {
                     "default": "",
                     "maxLength": 1000,
-                    "title": "Hidden Agenda",
+                    "title": "隐藏意图",
                     "type": "string"
                   },
                   "influence_scope": {
                     "default": "",
                     "maxLength": 1000,
-                    "title": "Influence Scope",
+                    "title": "影响范围",
                     "type": "string"
                   },
                   "active_status": {
@@ -1791,7 +1884,7 @@
                       "dormant",
                       "dissolved"
                     ],
-                    "title": "Active Status",
+                    "title": "活跃状态",
                     "type": "string"
                   }
                 },
@@ -1815,7 +1908,7 @@
                   }
                 ],
                 "default": null,
-                "title": "State Expected Version"
+                "title": "状态期望版本"
               }
             },
             "required": [
@@ -1826,14 +1919,14 @@
             "type": "object"
           },
           "maxItems": 20,
-          "title": "Factions",
+          "title": "势力",
           "type": "array"
         },
         "param_new_count": {
           "default": 2,
           "maximum": 20,
           "minimum": 0,
-          "title": "New Count",
+          "title": "新增数量",
           "type": "integer"
         },
         "param_selected_existing_ids": {
@@ -1843,15 +1936,15 @@
             "type": "string"
           },
           "maxItems": 20,
-          "title": "Selected Existing Ids",
+          "title": "已选现有 ID",
           "type": "array",
           "default": []
         },
         "param_user_guidance": {
           "default": "",
-          "maxLength": 2000,
-          "title": "User Guidance",
-          "type": "string"
+          "title": "作者要求",
+          "type": "string",
+          "format": "textarea"
         },
         "param_selection_mode": {
           "default": "auto",
@@ -1859,7 +1952,7 @@
             "manual",
             "auto"
           ],
-          "title": "Selection Mode",
+          "title": "选择模式",
           "type": "string"
         },
         "prepared_context": {
@@ -1869,7 +1962,7 @@
             "schema_version": {
               "const": 1,
               "default": 1,
-              "title": "Schema Version",
+              "title": "Schema 版本",
               "type": "integer"
             },
             "target": {
@@ -1880,7 +1973,7 @@
                   "maxLength": 24,
                   "minLength": 24,
                   "pattern": "^[0-9a-fA-F]{24}$",
-                  "title": "Novel Id",
+                  "title": "小说 ID",
                   "type": "string"
                 },
                 "target_type": {
@@ -1890,15 +1983,46 @@
                     "scene",
                     "chapter"
                   ],
-                  "title": "Target Type",
+                  "title": "目标类型",
                   "type": "string"
                 },
                 "target_id": {
                   "maxLength": 24,
                   "minLength": 24,
                   "pattern": "^[0-9a-fA-F]{24}$",
-                  "title": "Target Id",
+                  "title": "目标 ID",
                   "type": "string"
+                },
+                "reading_version": {
+                  "anyOf": [
+                    {
+                      "const": 1,
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Reading Version"
+                },
+                "reading_intent": {
+                  "anyOf": [
+                    {
+                      "enum": [
+                        "chapter_before",
+                        "chapter_after",
+                        "append",
+                        "replan"
+                      ],
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Reading Intent"
                 }
               },
               "required": [
@@ -1912,7 +2036,7 @@
             "boundaries": {
               "maxLength": 12000,
               "minLength": 1,
-              "title": "Boundaries",
+              "title": "边界",
               "type": "string"
             },
             "selected_entities": {
@@ -1924,7 +2048,7 @@
                     "type": "string"
                   },
                   "maxItems": 50,
-                  "title": "Character Ids",
+                  "title": "角色 ID",
                   "type": "array"
                 },
                 "faction_ids": {
@@ -1932,7 +2056,7 @@
                     "type": "string"
                   },
                   "maxItems": 50,
-                  "title": "Faction Ids",
+                  "title": "势力 ID",
                   "type": "array"
                 },
                 "location_ids": {
@@ -1940,7 +2064,7 @@
                     "type": "string"
                   },
                   "maxItems": 50,
-                  "title": "Location Ids",
+                  "title": "地点 ID",
                   "type": "array"
                 },
                 "item_ids": {
@@ -1948,7 +2072,7 @@
                     "type": "string"
                   },
                   "maxItems": 50,
-                  "title": "Item Ids",
+                  "title": "物品 ID",
                   "type": "array"
                 },
                 "rule_ids": {
@@ -1956,7 +2080,7 @@
                     "type": "string"
                   },
                   "maxItems": 50,
-                  "title": "Rule Ids",
+                  "title": "规则 ID",
                   "type": "array"
                 }
               },
@@ -1976,19 +2100,19 @@
                       "item",
                       "world_rule"
                     ],
-                    "title": "Resource Type",
+                    "title": "资源类型",
                     "type": "string"
                   },
                   "id": {
                     "maxLength": 100,
                     "minLength": 1,
-                    "title": "Id",
+                    "title": "ID",
                     "type": "string"
                   },
                   "reason": {
                     "maxLength": 2000,
                     "minLength": 1,
-                    "title": "Reason",
+                    "title": "原因",
                     "type": "string"
                   }
                 },
@@ -2001,7 +2125,7 @@
                 "type": "object"
               },
               "maxItems": 250,
-              "title": "Selection Reasons",
+              "title": "选择理由",
               "type": "array"
             },
             "entity_needs": {
@@ -2017,19 +2141,19 @@
                       "item",
                       "world_rule"
                     ],
-                    "title": "Resource Type",
+                    "title": "资源类型",
                     "type": "string"
                   },
                   "role": {
                     "maxLength": 1000,
                     "minLength": 1,
-                    "title": "Role",
+                    "title": "职责",
                     "type": "string"
                   },
                   "reason": {
                     "maxLength": 2000,
                     "minLength": 1,
-                    "title": "Reason",
+                    "title": "原因",
                     "type": "string"
                   }
                 },
@@ -2042,7 +2166,7 @@
                 "type": "object"
               },
               "maxItems": 150,
-              "title": "Entity Needs",
+              "title": "实体需求",
               "type": "array"
             },
             "new_counts": {
@@ -2053,35 +2177,35 @@
                   "default": 0,
                   "maximum": 30,
                   "minimum": 0,
-                  "title": "Character",
+                  "title": "角色",
                   "type": "integer"
                 },
                 "faction": {
                   "default": 0,
                   "maximum": 30,
                   "minimum": 0,
-                  "title": "Faction",
+                  "title": "势力",
                   "type": "integer"
                 },
                 "location": {
                   "default": 0,
                   "maximum": 30,
                   "minimum": 0,
-                  "title": "Location",
+                  "title": "地点",
                   "type": "integer"
                 },
                 "item": {
                   "default": 0,
                   "maximum": 30,
                   "minimum": 0,
-                  "title": "Item",
+                  "title": "物品",
                   "type": "integer"
                 },
                 "world_rule": {
                   "default": 0,
                   "maximum": 30,
                   "minimum": 0,
-                  "title": "World Rule",
+                  "title": "世界规则",
                   "type": "integer"
                 }
               },
@@ -2092,19 +2216,19 @@
               "description": "本次应新增的下级数量。仍有未覆盖剧情时为1至20；全部剧情已被现有下级覆盖时必须为0。遵守本次输入明确给定的固定数量，auto时自主估计。",
               "maximum": 20,
               "minimum": 0,
-              "title": "Suggested Count",
+              "title": "建议数量",
               "type": "integer"
             },
             "coverage": {
               "description": "分别说明已有下级已覆盖什么、还剩什么；当前没有下级时不能声称剧情已经覆盖。",
               "maxLength": 12000,
               "minLength": 1,
-              "title": "Coverage",
+              "title": "覆盖范围",
               "type": "string"
             },
             "remaining": {
               "description": "是否还有需要本次生成的未覆盖内容。true表示仍需生成，suggested_count必须大于0；false表示已有内容完整覆盖、无需新增，suggested_count必须为0。不是‘资料是否还需补齐’。",
-              "title": "Remaining",
+              "title": "剩余",
               "type": "boolean"
             },
             "missing_required": {
@@ -2115,13 +2239,13 @@
                   "field": {
                     "maxLength": 200,
                     "minLength": 1,
-                    "title": "Field",
+                    "title": "字段",
                     "type": "string"
                   },
                   "message": {
                     "maxLength": 2000,
                     "minLength": 1,
-                    "title": "Message",
+                    "title": "消息",
                     "type": "string"
                   }
                 },
@@ -2133,7 +2257,7 @@
                 "type": "object"
               },
               "maxItems": 100,
-              "title": "Missing Required",
+              "title": "缺少必填项",
               "type": "array"
             },
             "entity_details": {
@@ -2142,7 +2266,7 @@
                 "type": "object"
               },
               "maxItems": 250,
-              "title": "Entity Details",
+              "title": "实体详情",
               "type": "array"
             },
             "volume_states": {
@@ -2151,7 +2275,7 @@
                 "type": "object"
               },
               "maxItems": 500,
-              "title": "Volume States",
+              "title": "分卷状态",
               "type": "array"
             },
             "relations": {
@@ -2160,7 +2284,7 @@
                 "type": "object"
               },
               "maxItems": 500,
-              "title": "Relations",
+              "title": "关系",
               "type": "array"
             },
             "previous_text": {
@@ -2169,7 +2293,7 @@
                 "type": "object"
               },
               "maxItems": 100,
-              "title": "Previous Text",
+              "title": "前文",
               "type": "array"
             }
           },

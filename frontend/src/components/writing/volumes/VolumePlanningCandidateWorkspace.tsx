@@ -173,7 +173,7 @@ function isPlanning(value: unknown): value is VolumePlanningV1 {
     || value.key_turning_points.length > 20
     || !Number.isInteger(value.target_chapter_count)
     || Number(value.target_chapter_count) < 1
-    || Number(value.target_chapter_count) > 1000
+    || Number(value.target_chapter_count) > 5000
     || !Number.isInteger(value.target_word_count)
     || Number(value.target_word_count) < 1
     || Number(value.target_word_count) > 10_000_000
@@ -267,7 +267,7 @@ function isSkeletonGenerationInput(value: unknown, novelId: string): value is Vo
     || Number(value.target_volume_count) > 30
     || !Number.isInteger(value.total_chapter_budget)
     || Number(value.total_chapter_budget) < 1
-    || Number(value.total_chapter_budget) > 1000
+    || Number(value.total_chapter_budget) > 5000
     || !Number.isInteger(value.total_word_budget)
     || Number(value.total_word_budget) < 1
     || Number(value.total_word_budget) > 10_000_000
@@ -322,7 +322,7 @@ function isLaunchGenerationInput(
     && value.volume_id === volumeId
     && Number.isInteger(value.volume_expected_version)
     && Number(value.volume_expected_version) >= 1
-    && isNullablePositiveInteger(value.target_chapter_count, 1000)
+    && isNullablePositiveInteger(value.target_chapter_count, 5000)
     && isNullablePositiveInteger(value.target_word_count, 10_000_000)
     && typeof value.user_guidance === "string"
     && value.user_guidance.length <= 2000
@@ -431,11 +431,14 @@ export function parseVolumeSkeletonPreview(value: unknown, novelId: string): Vol
     || new Set(refs).size !== refs.length
     || new Set(titles).size !== titles.length
     || candidates.some((candidate, index) => candidate.order_index !== firstOrder + index)
-    || candidates.some((candidate, index) => index > 0
-      && normalizeComparableText(candidates[index - 1].planning.end_state)
-        !== normalizeComparableText(candidate.planning.start_state))
-    || candidates.reduce((sum, candidate) => sum + candidate.planning.target_chapter_count, 0) !== input.total_chapter_budget
-    || candidates.reduce((sum, candidate) => sum + candidate.planning.target_word_count, 0) !== input.total_word_budget
+    || Math.abs(
+      candidates.reduce((sum, candidate) => sum + candidate.planning.target_chapter_count, 0)
+        - input.total_chapter_budget,
+    ) > Math.max(3, Math.floor(input.total_chapter_budget * 0.1))
+    || Math.abs(
+      candidates.reduce((sum, candidate) => sum + candidate.planning.target_word_count, 0)
+        - input.total_word_budget,
+    ) > Math.max(5000, Math.floor(input.total_word_budget * 0.1))
   ) return null;
   if (
     input.mode === "replan"
@@ -544,8 +547,8 @@ export function parseVolumeLaunchPreview(
   const input = launchBasis.generation_input;
   const planning = value.candidate.launch_package.planning;
   if (
-    (input.target_chapter_count !== null && planning.target_chapter_count !== input.target_chapter_count)
-    || (input.target_word_count !== null && planning.target_word_count !== input.target_word_count)
+    (input.target_chapter_count !== null && Math.abs(planning.target_chapter_count - input.target_chapter_count) > Math.max(3, Math.floor(input.target_chapter_count * 0.1)))
+    || (input.target_word_count !== null && Math.abs(planning.target_word_count - input.target_word_count) > Math.max(5000, Math.floor(input.target_word_count * 0.1)))
   ) return null;
   return value as unknown as VolumeLaunchPreviewV1;
 }
@@ -729,7 +732,7 @@ function validatePackage(value: EditableVolumePackage, duplicateTitle: boolean, 
     || normalizedPoints.some((point) => !point)
     || new Set(normalizedPoints).size !== normalizedPoints.length
   ) errors.key_turning_points = [t("ai.validation.turningPoints")];
-  if (!Number.isInteger(value.planning.target_chapter_count) || value.planning.target_chapter_count < 1 || value.planning.target_chapter_count > 1000) {
+  if (!Number.isInteger(value.planning.target_chapter_count) || value.planning.target_chapter_count < 1 || value.planning.target_chapter_count > 5000) {
     errors.target_chapter_count = [t("validation.targetChapterCount")];
   }
   if (!Number.isInteger(value.planning.target_word_count) || value.planning.target_word_count < 1 || value.planning.target_word_count > 10_000_000) {

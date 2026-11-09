@@ -334,15 +334,15 @@ class VolumePlanningGenerationService:
         """复验启动包预算和相邻状态，返回非阻断右邻冲突。"""
         planning = result.launch_package.planning
         errors: list[str] = []
-        if planning.target_chapter_count != context["effective_chapter_count"]:
+        if abs(planning.target_chapter_count - context["effective_chapter_count"]) > max(
+            3, int(context["effective_chapter_count"] * 0.1)
+        ):
             errors.append("启动包章节预算与请求不一致")
-        if planning.target_word_count != context["effective_word_count"]:
+        if abs(planning.target_word_count - context["effective_word_count"]) > max(
+            5000, int(context["effective_word_count"] * 0.1)
+        ):
             errors.append("启动包字数预算与请求不一致")
-        previous_planning = context["previous"].get("planning") if context["previous"] is not None else None
-        if previous_planning is not None and normalize_volume_text(
-            str(previous_planning["end_state"])
-        ) != normalize_volume_text(planning.start_state):
-            errors.append("启动包计划起点与上一卷计划终点不衔接")
+        # 与上一卷的起点衔接不再硬性阻断：本地模型常无法逐字衔接，交由作者审核编辑。
         if errors:
             raise GenerationDomainError(
                 "VOLUME_LAUNCH_OUTPUT_INVALID",

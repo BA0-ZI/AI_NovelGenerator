@@ -18,13 +18,13 @@
           },
           "maxItems": 100,
           "minItems": 2,
-          "title": "Character Ids",
+          "title": "角色 ID",
           "type": "array",
           "required": true
         },
         "allow_isolated_characters": {
           "default": false,
-          "title": "Allow Isolated Characters",
+          "title": "允许孤立角色",
           "type": "boolean",
           "required": false
         },
@@ -40,7 +40,7 @@
             }
           ],
           "default": null,
-          "title": "Relation Count Limit",
+          "title": "关系数量上限",
           "required": false
         },
         "user_guidance": {
@@ -54,8 +54,9 @@
             }
           ],
           "default": null,
-          "title": "User Guidance",
-          "required": false
+          "title": "作者要求",
+          "required": false,
+          "format": "textarea"
         }
       },
       "values": {},
@@ -72,13 +73,13 @@
           },
           "maxItems": 100,
           "minItems": 2,
-          "title": "Character Ids",
+          "title": "角色 ID",
           "type": "array",
           "required": true
         },
         "allow_isolated_characters": {
           "default": false,
-          "title": "Allow Isolated Characters",
+          "title": "允许孤立角色",
           "type": "boolean",
           "required": false
         },
@@ -94,7 +95,7 @@
             }
           ],
           "default": null,
-          "title": "Relation Count Limit",
+          "title": "关系数量上限",
           "required": false
         },
         "user_guidance": {
@@ -108,8 +109,9 @@
             }
           ],
           "default": null,
-          "title": "User Guidance",
-          "required": false
+          "title": "作者要求",
+          "required": false,
+          "format": "textarea"
         }
       },
       "outputs": {
@@ -141,7 +143,7 @@
     {
       "id": "create_character_relations",
       "type": "llm",
-      "label": "create_character_relations",
+      "label": "创建角色关系",
       "inputs": {
         "allow_isolated_characters": {
           "type": "string"
@@ -173,7 +175,7 @@
           },
           "maxItems": 500,
           "minItems": 1,
-          "title": "Relations",
+          "title": "关系",
           "type": "array",
           "required": true,
           "$defs": {
@@ -308,7 +310,7 @@
           },
           "maxItems": 500,
           "minItems": 1,
-          "title": "Relations",
+          "title": "关系",
           "type": "array",
           "required": true,
           "$defs": {
@@ -423,13 +425,13 @@
           },
           "maxItems": 100,
           "minItems": 2,
-          "title": "Character Ids",
+          "title": "角色 ID",
           "type": "array",
           "required": true
         },
         "param_allow_isolated_characters": {
           "default": false,
-          "title": "Allow Isolated Characters",
+          "title": "允许孤立角色",
           "type": "boolean",
           "required": false
         },
@@ -445,7 +447,7 @@
             }
           ],
           "default": null,
-          "title": "Relation Count Limit",
+          "title": "关系数量上限",
           "required": false
         },
         "param_user_guidance": {
@@ -459,8 +461,9 @@
             }
           ],
           "default": null,
-          "title": "User Guidance",
-          "required": false
+          "title": "作者要求",
+          "required": false,
+          "format": "textarea"
         }
       },
       "outputs": {},

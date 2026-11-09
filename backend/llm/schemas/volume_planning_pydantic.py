@@ -89,7 +89,7 @@ class VolumePlanningV1(StrictRequestModel):
     key_turning_points: list[str] = Field(max_length=20)
     start_state: str = Field(max_length=2000)
     end_state: str = Field(max_length=2000)
-    target_chapter_count: int = Field(ge=1, le=1000)
+    target_chapter_count: int = Field(ge=1, le=5000)
     target_word_count: int = Field(ge=1, le=10_000_000)
 
 
@@ -118,7 +118,7 @@ class VolumeSkeletonGenerateRequestV1(ReasoningOptions, StrictRequestModel):
     """全书卷骨架候选预览请求。"""
 
     target_volume_count: int = Field(ge=1, le=30)
-    total_chapter_budget: int = Field(ge=1, le=1000)
+    total_chapter_budget: int = Field(ge=1, le=5000)
     total_word_budget: int = Field(ge=1, le=10_000_000)
     mode: Literal["create", "append", "replan"]
     target_order_range: VolumeOrderRangeV1 | None = None
@@ -159,7 +159,7 @@ class VolumeSkeletonGenerationInputV1(ReasoningOptions, StrictRequestModel):
 
     novel_id: ObjectIdString
     target_volume_count: int = Field(ge=1, le=30)
-    total_chapter_budget: int = Field(ge=1, le=1000)
+    total_chapter_budget: int = Field(ge=1, le=5000)
     total_word_budget: int = Field(ge=1, le=10_000_000)
     mode: Literal["create", "append", "replan"]
     target_order_range: VolumeOrderRangeV1 | None = None
@@ -376,7 +376,7 @@ class VolumeLaunchGenerateRequestV1(ReasoningOptions, StrictRequestModel):
     """单卷启动包候选预览请求。"""
 
     volume_expected_version: int = Field(ge=1)
-    target_chapter_count: int | None = Field(default=None, ge=1, le=1000)
+    target_chapter_count: int | None = Field(default=None, ge=1, le=5000)
     target_word_count: int | None = Field(default=None, ge=1, le=10_000_000)
     user_guidance: str = Field(default="", max_length=2000)
     temperature: float | None = Field(default=None, ge=0, le=2)
@@ -394,7 +394,7 @@ class VolumeLaunchGenerationInputV1(ReasoningOptions, StrictRequestModel):
     novel_id: ObjectIdString
     volume_id: ObjectIdString
     volume_expected_version: int = Field(ge=1)
-    target_chapter_count: int | None = Field(default=None, ge=1, le=1000)
+    target_chapter_count: int | None = Field(default=None, ge=1, le=5000)
     target_word_count: int | None = Field(default=None, ge=1, le=10_000_000)
     user_guidance: str = Field(default="", max_length=2000)
     temperature: float | None = Field(default=None, ge=0, le=2)

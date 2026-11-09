@@ -15,7 +15,7 @@
         "user_idea": {
           "maxLength": 20000,
           "minLength": 1,
-          "title": "User Idea",
+          "title": "用户创意",
           "type": "string",
           "required": true
         },
@@ -23,7 +23,7 @@
           "default": 600,
           "maximum": 10000,
           "minimum": 1,
-          "title": "Number Of Chapters",
+          "title": "章节数",
           "type": "integer",
           "required": false
         },
@@ -31,7 +31,7 @@
           "default": 3000,
           "maximum": 100000,
           "minimum": 1,
-          "title": "Words Per Chapter",
+          "title": "每章字数",
           "type": "integer",
           "required": false
         }
@@ -42,12 +42,12 @@
     {
       "id": "expand_idea_to_full_novel_story",
       "type": "llm",
-      "label": "expand_idea_to_full_novel_story",
+      "label": "创意扩写成完整故事",
       "inputs": {
         "user_idea": {
           "maxLength": 20000,
           "minLength": 1,
-          "title": "User Idea",
+          "title": "用户创意",
           "type": "string",
           "required": true
         }
@@ -57,7 +57,7 @@
           "description": "完整的约3000字长篇压缩故事正文",
           "maxLength": 5000,
           "minLength": 200,
-          "title": "Plot",
+          "title": "情节大纲",
           "type": "string",
           "required": true
         }
@@ -80,13 +80,13 @@
     {
       "id": "extract_idea",
       "type": "llm",
-      "label": "extract_idea",
+      "label": "提炼设定",
       "inputs": {
         "plot": {
           "description": "完整的约3000字长篇压缩故事正文",
           "maxLength": 5000,
           "minLength": 200,
-          "title": "Plot",
+          "title": "情节大纲",
           "type": "string",
           "required": true
         }
@@ -96,7 +96,7 @@
           "description": "小说类型，如玄幻、科幻、都市、悬疑、历史、仙侠等",
           "maxLength": 30,
           "minLength": 1,
-          "title": "Genre",
+          "title": "类型",
           "type": "string",
           "required": true
         },
@@ -104,7 +104,7 @@
           "description": "整体基调，如热血、黑暗、轻松、搞笑、治愈、压抑等",
           "maxLength": 30,
           "minLength": 1,
-          "title": "Tone",
+          "title": "基调",
           "type": "string",
           "required": true
         },
@@ -112,7 +112,7 @@
           "description": "目标读者群体，如男频、女频、青少年、泛幻想读者等",
           "maxLength": 30,
           "minLength": 1,
-          "title": "Target Audience",
+          "title": "目标读者",
           "type": "string",
           "required": true
         },
@@ -120,7 +120,7 @@
           "description": "用1-2句话描述故事的核心设想",
           "maxLength": 300,
           "minLength": 10,
-          "title": "Core Idea",
+          "title": "核心创意",
           "type": "string",
           "required": true
         }
@@ -143,13 +143,13 @@
     {
       "id": "core_seed",
       "type": "llm",
-      "label": "core_seed",
+      "label": "核心种子",
       "inputs": {
         "core_idea": {
           "description": "用1-2句话描述故事的核心设想",
           "maxLength": 300,
           "minLength": 10,
-          "title": "Core Idea",
+          "title": "核心创意",
           "type": "string",
           "required": true
         },
@@ -157,7 +157,7 @@
           "description": "小说类型，如玄幻、科幻、都市、悬疑、历史、仙侠等",
           "maxLength": 30,
           "minLength": 1,
-          "title": "Genre",
+          "title": "类型",
           "type": "string",
           "required": true
         },
@@ -165,7 +165,7 @@
           "default": 100,
           "maximum": 10000,
           "minimum": 1,
-          "title": "Number Of Chapters",
+          "title": "章节数",
           "type": "integer",
           "required": false
         },
@@ -173,7 +173,7 @@
           "description": "完整的约3000字长篇压缩故事正文",
           "maxLength": 5000,
           "minLength": 200,
-          "title": "Plot",
+          "title": "情节大纲",
           "type": "string",
           "required": true
         },
@@ -181,7 +181,7 @@
           "description": "目标读者群体，如男频、女频、青少年、泛幻想读者等",
           "maxLength": 30,
           "minLength": 1,
-          "title": "Target Audience",
+          "title": "目标读者",
           "type": "string",
           "required": true
         },
@@ -189,7 +189,7 @@
           "description": "整体基调，如热血、黑暗、轻松、搞笑、治愈、压抑等",
           "maxLength": 30,
           "minLength": 1,
-          "title": "Tone",
+          "title": "基调",
           "type": "string",
           "required": true
         },
@@ -197,7 +197,7 @@
           "default": 3000,
           "maximum": 100000,
           "minimum": 1,
-          "title": "Words Per Chapter",
+          "title": "每章字数",
           "type": "integer",
           "required": false
         }
@@ -207,7 +207,7 @@
           "description": "故事核心公式，需包含显性冲突、潜在危机、人物核心驱动力与世界观关键矛盾暗示，长度30-100字",
           "maxLength": 150,
           "minLength": 30,
-          "title": "Core Seed",
+          "title": "核心种子",
           "type": "string",
           "required": true
         }
@@ -230,13 +230,13 @@
     {
       "id": "novel_meta",
       "type": "llm",
-      "label": "novel_meta",
+      "label": "小说元信息",
       "inputs": {
         "core_idea": {
           "description": "用1-2句话描述故事的核心设想",
           "maxLength": 300,
           "minLength": 10,
-          "title": "Core Idea",
+          "title": "核心创意",
           "type": "string",
           "required": true
         },
@@ -244,7 +244,7 @@
           "description": "故事核心公式，需包含显性冲突、潜在危机、人物核心驱动力与世界观关键矛盾暗示，长度30-100字",
           "maxLength": 150,
           "minLength": 30,
-          "title": "Core Seed",
+          "title": "核心种子",
           "type": "string",
           "required": true
         },
@@ -252,7 +252,7 @@
           "description": "小说类型，如玄幻、科幻、都市、悬疑、历史、仙侠等",
           "maxLength": 30,
           "minLength": 1,
-          "title": "Genre",
+          "title": "类型",
           "type": "string",
           "required": true
         },
@@ -260,7 +260,7 @@
           "default": 100,
           "maximum": 10000,
           "minimum": 1,
-          "title": "Number Of Chapters",
+          "title": "章节数",
           "type": "integer",
           "required": false
         },
@@ -268,7 +268,7 @@
           "description": "完整的约3000字长篇压缩故事正文",
           "maxLength": 5000,
           "minLength": 200,
-          "title": "Plot",
+          "title": "情节大纲",
           "type": "string",
           "required": true
         },
@@ -276,7 +276,7 @@
           "description": "目标读者群体，如男频、女频、青少年、泛幻想读者等",
           "maxLength": 30,
           "minLength": 1,
-          "title": "Target Audience",
+          "title": "目标读者",
           "type": "string",
           "required": true
         },
@@ -284,7 +284,7 @@
           "description": "整体基调，如热血、黑暗、轻松、搞笑、治愈、压抑等",
           "maxLength": 30,
           "minLength": 1,
-          "title": "Tone",
+          "title": "基调",
           "type": "string",
           "required": true
         },
@@ -292,7 +292,7 @@
           "default": 3000,
           "maximum": 100000,
           "minimum": 1,
-          "title": "Words Per Chapter",
+          "title": "每章字数",
           "type": "integer",
           "required": false
         }
@@ -302,7 +302,7 @@
           "description": "小说主标题，具有吸引力和传播性，符合类型读者审美",
           "maxLength": 30,
           "minLength": 1,
-          "title": "Title",
+          "title": "标题",
           "type": "string",
           "required": true
         },
@@ -310,7 +310,7 @@
           "description": "副标题，补充核心冲突或主题，具有一定文学感或商业感",
           "maxLength": 50,
           "minLength": 1,
-          "title": "Subtitle",
+          "title": "副标题",
           "type": "string",
           "required": true
         },
@@ -318,7 +318,7 @@
           "description": "小说引言，100-300字，引入故事，吸引读者阅读兴趣",
           "maxLength": 300,
           "minLength": 100,
-          "title": "Introduction",
+          "title": "引言",
           "type": "string",
           "required": true
         },
@@ -326,7 +326,7 @@
           "description": "小说简介，100-500字，需清晰呈现主线冲突与悬念",
           "maxLength": 500,
           "minLength": 100,
-          "title": "Summary",
+          "title": "简介",
           "type": "string",
           "required": true
         },
@@ -334,7 +334,7 @@
           "description": "世界观设定，说明世界规则、力量体系、社会结构等，不少于100字",
           "maxLength": 800,
           "minLength": 100,
-          "title": "Worldview",
+          "title": "世界观",
           "type": "string",
           "required": true
         },
@@ -342,7 +342,7 @@
           "description": "创作风格，如偏黑暗现实、轻快幽默、史诗宏大等",
           "maxLength": 50,
           "minLength": 2,
-          "title": "Writing Style",
+          "title": "创作风格",
           "type": "string",
           "required": true
         },
@@ -353,7 +353,7 @@
             "第三人称有限视角",
             "全知视角"
           ],
-          "title": "Narrative Pov",
+          "title": "叙事视角",
           "type": "string",
           "required": true
         },
@@ -361,7 +361,7 @@
           "description": "时代背景，如架空古代、未来星际、现代都市、末世废土等",
           "maxLength": 50,
           "minLength": 2,
-          "title": "Era Background",
+          "title": "时代背景",
           "type": "string",
           "required": true
         },
@@ -370,7 +370,7 @@
           "items": {
             "type": "string"
           },
-          "title": "Tags",
+          "title": "标签",
           "type": "array",
           "required": false
         }
@@ -399,7 +399,7 @@
           "description": "小说主标题，具有吸引力和传播性，符合类型读者审美",
           "maxLength": 30,
           "minLength": 1,
-          "title": "Title",
+          "title": "标题",
           "type": "string",
           "required": true
         },
@@ -407,7 +407,7 @@
           "description": "副标题，补充核心冲突或主题，具有一定文学感或商业感",
           "maxLength": 50,
           "minLength": 1,
-          "title": "Subtitle",
+          "title": "副标题",
           "type": "string",
           "required": true
         },
@@ -415,7 +415,7 @@
           "description": "小说类型，如玄幻、科幻、都市、悬疑、历史、仙侠等",
           "maxLength": 30,
           "minLength": 1,
-          "title": "Genre",
+          "title": "类型",
           "type": "string",
           "required": true
         },
@@ -424,7 +424,7 @@
           "items": {
             "type": "string"
           },
-          "title": "Tags",
+          "title": "标签",
           "type": "array",
           "required": false
         },
@@ -432,7 +432,7 @@
           "description": "小说引言，100-300字，引入故事，吸引读者阅读兴趣",
           "maxLength": 300,
           "minLength": 100,
-          "title": "Introduction",
+          "title": "引言",
           "type": "string",
           "required": true
         },
@@ -440,7 +440,7 @@
           "description": "小说简介，100-500字，需清晰呈现主线冲突与悬念",
           "maxLength": 500,
           "minLength": 100,
-          "title": "Summary",
+          "title": "简介",
           "type": "string",
           "required": true
         },
@@ -448,7 +448,7 @@
           "description": "故事核心公式，需包含显性冲突、潜在危机、人物核心驱动力与世界观关键矛盾暗示，长度30-100字",
           "maxLength": 150,
           "minLength": 30,
-          "title": "Core Seed",
+          "title": "核心种子",
           "type": "string",
           "required": true
         },
@@ -456,7 +456,7 @@
           "description": "世界观设定，说明世界规则、力量体系、社会结构等，不少于100字",
           "maxLength": 800,
           "minLength": 100,
-          "title": "Worldview",
+          "title": "世界观",
           "type": "string",
           "required": true
         },
@@ -464,7 +464,7 @@
           "description": "创作风格，如偏黑暗现实、轻快幽默、史诗宏大等",
           "maxLength": 50,
           "minLength": 2,
-          "title": "Writing Style",
+          "title": "创作风格",
           "type": "string",
           "required": true
         },
@@ -475,7 +475,7 @@
             "第三人称有限视角",
             "全知视角"
           ],
-          "title": "Narrative Pov",
+          "title": "叙事视角",
           "type": "string",
           "required": true
         },
@@ -483,7 +483,7 @@
           "description": "时代背景，如架空古代、未来星际、现代都市、末世废土等",
           "maxLength": 50,
           "minLength": 2,
-          "title": "Era Background",
+          "title": "时代背景",
           "type": "string",
           "required": true
         },
@@ -491,7 +491,7 @@
           "description": "完整的约3000字长篇压缩故事正文",
           "maxLength": 5000,
           "minLength": 200,
-          "title": "Plot",
+          "title": "情节大纲",
           "type": "string",
           "required": true
         },
@@ -499,7 +499,7 @@
           "description": "整体基调，如热血、黑暗、轻松、搞笑、治愈、压抑等",
           "maxLength": 30,
           "minLength": 1,
-          "title": "Tone",
+          "title": "基调",
           "type": "string",
           "required": true
         },
@@ -507,7 +507,7 @@
           "description": "目标读者群体，如男频、女频、青少年、泛幻想读者等",
           "maxLength": 30,
           "minLength": 1,
-          "title": "Target Audience",
+          "title": "目标读者",
           "type": "string",
           "required": true
         },
@@ -515,7 +515,7 @@
           "description": "用1-2句话描述故事的核心设想",
           "maxLength": 300,
           "minLength": 10,
-          "title": "Core Idea",
+          "title": "核心创意",
           "type": "string",
           "required": true
         },
@@ -523,7 +523,7 @@
           "default": 100,
           "maximum": 10000,
           "minimum": 1,
-          "title": "Number Of Chapters",
+          "title": "章节数",
           "type": "integer",
           "required": false
         },
@@ -531,7 +531,7 @@
           "default": 3000,
           "maximum": 100000,
           "minimum": 1,
-          "title": "Words Per Chapter",
+          "title": "每章字数",
           "type": "integer",
           "required": false
         }

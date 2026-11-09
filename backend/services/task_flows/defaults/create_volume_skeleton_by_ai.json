@@ -15,7 +15,7 @@
         "target_volume_count": {
           "maximum": 30,
           "minimum": 1,
-          "title": "Target Volume Count",
+          "title": "目标分卷数",
           "type": "integer",
           "required": true,
           "$defs": {
@@ -45,9 +45,9 @@
           "default": 3
         },
         "total_chapter_budget": {
-          "maximum": 1000,
+          "maximum": 5000,
           "minimum": 1,
-          "title": "Total Chapter Budget",
+          "title": "章节总预算",
           "type": "integer",
           "required": true,
           "$defs": {
@@ -79,7 +79,7 @@
         "total_word_budget": {
           "maximum": 10000000,
           "minimum": 1,
-          "title": "Total Word Budget",
+          "title": "字数总预算",
           "type": "integer",
           "required": true,
           "$defs": {
@@ -114,7 +114,7 @@
             "append",
             "replan"
           ],
-          "title": "Mode",
+          "title": "模式",
           "type": "string",
           "required": true,
           "$defs": {
@@ -180,8 +180,7 @@
         },
         "user_guidance": {
           "default": "",
-          "maxLength": 2000,
-          "title": "User Guidance",
+          "title": "作者要求",
           "type": "string",
           "required": false,
           "$defs": {
@@ -207,7 +206,8 @@
               "title": "VolumeOrderRangeV1",
               "type": "object"
             }
-          }
+          },
+          "format": "textarea"
         }
       },
       "values": {},
@@ -221,7 +221,7 @@
         "target_volume_count": {
           "maximum": 30,
           "minimum": 1,
-          "title": "Target Volume Count",
+          "title": "目标分卷数",
           "type": "integer",
           "required": true,
           "$defs": {
@@ -250,9 +250,9 @@
           }
         },
         "total_chapter_budget": {
-          "maximum": 1000,
+          "maximum": 5000,
           "minimum": 1,
-          "title": "Total Chapter Budget",
+          "title": "章节总预算",
           "type": "integer",
           "required": true,
           "$defs": {
@@ -283,7 +283,7 @@
         "total_word_budget": {
           "maximum": 10000000,
           "minimum": 1,
-          "title": "Total Word Budget",
+          "title": "字数总预算",
           "type": "integer",
           "required": true,
           "$defs": {
@@ -317,7 +317,7 @@
             "append",
             "replan"
           ],
-          "title": "Mode",
+          "title": "模式",
           "type": "string",
           "required": true,
           "$defs": {
@@ -383,8 +383,7 @@
         },
         "user_guidance": {
           "default": "",
-          "maxLength": 2000,
-          "title": "User Guidance",
+          "title": "作者要求",
           "type": "string",
           "required": false,
           "$defs": {
@@ -410,7 +409,8 @@
               "title": "VolumeOrderRangeV1",
               "type": "object"
             }
-          }
+          },
+          "format": "textarea"
         }
       },
       "outputs": {
@@ -460,7 +460,7 @@
     {
       "id": "create_volume_skeleton",
       "type": "llm",
-      "label": "create_volume_skeleton",
+      "label": "生成分卷骨架",
       "inputs": {
         "active_world_rules": {
           "type": "string"
@@ -509,7 +509,7 @@
           },
           "maxItems": 30,
           "minItems": 1,
-          "title": "Volumes",
+          "title": "分卷",
           "type": "array",
           "required": true,
           "$defs": {
@@ -546,7 +546,7 @@
                   "type": "string"
                 },
                 "target_chapter_count": {
-                  "maximum": 1000,
+                  "maximum": 5000,
                   "minimum": 1,
                   "title": "Target Chapter Count",
                   "type": "integer"
@@ -655,7 +655,7 @@
           },
           "maxItems": 30,
           "minItems": 1,
-          "title": "Volumes",
+          "title": "分卷",
           "type": "array",
           "required": true,
           "$defs": {
@@ -692,7 +692,7 @@
                   "type": "string"
                 },
                 "target_chapter_count": {
-                  "maximum": 1000,
+                  "maximum": 5000,
                   "minimum": 1,
                   "title": "Target Chapter Count",
                   "type": "integer"
@@ -780,7 +780,7 @@
         "param_target_volume_count": {
           "maximum": 30,
           "minimum": 1,
-          "title": "Target Volume Count",
+          "title": "目标分卷数",
           "type": "integer",
           "required": true,
           "$defs": {
@@ -809,9 +809,9 @@
           }
         },
         "param_total_chapter_budget": {
-          "maximum": 1000,
+          "maximum": 5000,
           "minimum": 1,
-          "title": "Total Chapter Budget",
+          "title": "章节总预算",
           "type": "integer",
           "required": true,
           "$defs": {
@@ -842,7 +842,7 @@
         "param_total_word_budget": {
           "maximum": 10000000,
           "minimum": 1,
-          "title": "Total Word Budget",
+          "title": "字数总预算",
           "type": "integer",
           "required": true,
           "$defs": {
@@ -876,7 +876,7 @@
             "append",
             "replan"
           ],
-          "title": "Mode",
+          "title": "模式",
           "type": "string",
           "required": true,
           "$defs": {
@@ -942,8 +942,7 @@
         },
         "param_user_guidance": {
           "default": "",
-          "maxLength": 2000,
-          "title": "User Guidance",
+          "title": "作者要求",
           "type": "string",
           "required": false,
           "$defs": {
@@ -969,7 +968,8 @@
               "title": "VolumeOrderRangeV1",
               "type": "object"
             }
-          }
+          },
+          "format": "textarea"
         }
       },
       "outputs": {},

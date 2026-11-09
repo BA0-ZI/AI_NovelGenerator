@@ -15,7 +15,7 @@
         "provider": {
           "maxLength": 100,
           "minLength": 1,
-          "title": "Provider",
+          "title": "模型服务",
           "type": "string",
           "required": true,
           "$defs": {
@@ -50,7 +50,7 @@
         "instruction": {
           "maxLength": 4000,
           "minLength": 1,
-          "title": "Instruction",
+          "title": "指示",
           "type": "string",
           "required": true,
           "$defs": {
@@ -94,7 +94,7 @@
         "provider": {
           "maxLength": 100,
           "minLength": 1,
-          "title": "Provider",
+          "title": "模型服务",
           "type": "string",
           "required": true,
           "$defs": {
@@ -129,7 +129,7 @@
         "instruction": {
           "maxLength": 4000,
           "minLength": 1,
-          "title": "Instruction",
+          "title": "指示",
           "type": "string",
           "required": true,
           "$defs": {
@@ -188,7 +188,7 @@
     {
       "id": "rewrite_novel_field",
       "type": "llm",
-      "label": "rewrite_novel_field",
+      "label": "改写小说字段",
       "inputs": {
         "context_json": {
           "type": "string"
@@ -211,7 +211,7 @@
         "provider": {
           "maxLength": 100,
           "minLength": 1,
-          "title": "Provider",
+          "title": "模型服务",
           "type": "string",
           "required": true,
           "$defs": {
@@ -263,7 +263,7 @@
             "narrative_pov",
             "era_background"
           ],
-          "title": "Target Field",
+          "title": "目标字段",
           "type": "string",
           "required": true
         },
@@ -279,7 +279,7 @@
               "type": "array"
             }
           ],
-          "title": "Value",
+          "title": "数值",
           "required": true
         }
       },
@@ -323,7 +323,7 @@
             "narrative_pov",
             "era_background"
           ],
-          "title": "Target Field",
+          "title": "目标字段",
           "type": "string",
           "required": true
         },
@@ -339,13 +339,13 @@
               "type": "array"
             }
           ],
-          "title": "Value",
+          "title": "数值",
           "required": true
         },
         "param_provider": {
           "maxLength": 100,
           "minLength": 1,
-          "title": "Provider",
+          "title": "模型服务",
           "type": "string",
           "required": true,
           "$defs": {
@@ -380,7 +380,7 @@
         "param_instruction": {
           "maxLength": 4000,
           "minLength": 1,
-          "title": "Instruction",
+          "title": "指示",
           "type": "string",
           "required": true,
           "$defs": {

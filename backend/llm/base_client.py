@@ -241,6 +241,73 @@ class BaseLLMClient(ABC):
         sanitized = _THINK_OPEN_RE.sub("", sanitized)
         sanitized = _THINK_CLOSE_RE.sub("", sanitized)
 
+        # 一劳永逸：用正则一把梭干掉所有 LaTeX 公式（不管完整不完整、不管有没有 $ 包裹、不管流式输出时被拆成几段）
+        # 1. 先把常见的 LaTeX 命令替换成对应的 Unicode 符号（完整匹配时）
+        _latex_cmd_re = re.compile(r'\\(rightarrow|leftarrow|Rightarrow|Leftarrow|times|div|pm|leq|geq|neq|approx|infty|alpha|beta|gamma|delta|mu|pi|sigma|theta|lambda|omega|Delta|sum)')
+        _latex_cmd_map = {
+            'rightarrow': '→', 'leftarrow': '←', 'Rightarrow': '⇒', 'Leftarrow': '⇐',
+            'times': '×', 'div': '÷', 'pm': '±', 'leq': '≤', 'geq': '≥',
+            'neq': '≠', 'approx': '≈', 'infty': '∞',
+            'alpha': 'α', 'beta': 'β', 'gamma': 'γ', 'delta': 'δ', 'mu': 'μ',
+            'pi': 'π', 'sigma': 'σ', 'theta': 'θ', 'lambda': 'λ', 'omega': 'ω',
+            'Delta': 'Δ', 'sum': '∑',
+        }
+        sanitized = _latex_cmd_re.sub(lambda m: _latex_cmd_map.get(m.group(1), ''), sanitized)
+        # 2. 把所有残留的 $ 符号直接删掉（流式输出时公式被拆成两半的情况）
+        sanitized = sanitized.replace('$', '')
+        # 3. 把所有残留的 \ 后面跟字母的组合也删掉（不完整的 LaTeX 命令，比如 \ight、\arrow 等）
+        sanitized = re.sub(r'\\[a-zA-Z]+', '', sanitized)
+        # 4. 把所有残留的 LaTeX 大括号也删掉（\text{...} 被删掉命令后残留的 {}）
+        sanitized = sanitized.replace('{', '').replace('}', '')
+        # 5. 干掉所有非中文/非英文/非常用标点的特殊字符（阿拉伯文、希伯来文、泰文等 gemma 蹦出来的多语言垃圾）
+        # 只保留：中文（\u4e00-\u9fff）、英文大小写字母、数字、常用中文标点和英文标点
+        sanitized = re.sub(r'[^\u4e00-\u9fff\u3000-\u303f\uff00-\uffefa-zA-Z0-9\s\.,!?;:\'"()\[\]{}\-—…·、。，！？；：""''（）【】]', '', sanitized)
+
+        # 容错：gemma 模型偶尔蹦出英文动作/表情词 → 替换成中文（避免误伤专有名词，只替换最常见的几个）
+        _english_action_map = {
+            " swagger ": " 大摇大摆地走 ",
+            " strut ": " 趾高气扬地走 ",
+            " saunter ": " 悠闲地漫步 ",
+            " stroll ": " 漫步 ",
+            " march ": " 行进 ",
+            " trudge ": " 步履沉重地走 ",
+            " plod ": " 沉重缓慢地走 ",
+            " limp ": " 一瘸一拐地走 ",
+            " stagger ": " 蹒跚 ",
+            " stumble ": " 绊倒 ",
+            " frown ": " 皱眉 ",
+            " grin ": " 咧嘴笑 ",
+            " smirk ": " 得意地笑 ",
+            " nod ": " 点头 ",
+            " shake head ": " 摇头 ",
+            " shrug ": " 耸肩 ",
+            " sigh ": " 叹气 ",
+            " gasp ": " 倒吸一口气 ",
+            " whisper ": " 低声说 ",
+            " mutter ": " 咕哝 ",
+            " growl ": " 低吼 ",
+            " snarl ": " 咆哮 ",
+            " crawled ": " 爬出来 ",
+            " crept ": " 蹑手蹑脚地走 ",
+            " darted ": " 飞奔 ",
+            " dashed ": " 猛冲 ",
+            " rushed ": " 冲 ",
+            " sprinted ": " 冲刺 ",
+            " leaped ": " 跳 ",
+            " jumped ": " 跳 ",
+            " dove ": " 俯冲 ",
+            " climbed ": " 爬 ",
+            " crawled out ": " 从……爬出来 ",
+        }
+        for _src, _dst in _english_action_map.items():
+            sanitized = sanitized.replace(_src, _dst)
+
+        # 一劳永逸：自动识别夹在中文里的英文动词（ed/ing 结尾）并删除——这种几乎肯定是 gemma 蹦出来的，不是专有名词
+        # 例："他 crawled 出来" → "他出来"；"她 smiling 地说" → "她地说"
+        sanitized = re.sub(r'(?<=[\u4e00-\u9fff])\s*\b[a-zA-Z]+(ed|ing)\b\s*(?=[\u4e00-\u9fff])', '', sanitized)
+        # 再处理一次：英文动词后面跟中文的"地"字（"smiling 地" → "地"）
+        sanitized = re.sub(r'\b[a-zA-Z]+(ed|ing)\b\s*(?=地)', '', sanitized)
+
         if sanitized != text:
             return sanitized.strip()
         return sanitized

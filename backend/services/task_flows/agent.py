@@ -20,7 +20,7 @@ from backend.llm.logger import LLMCall
 from backend.llm.exceptions import LLMError, network_retry_delay
 from backend.llm.models import LLMRequest, LLMToolCall, LLMToolDefinition, LLMToolResult, TokenUsage
 from backend.llm.schemas.writing_pydantic import WRITING_TASKS
-from .agent_contract import AgentModel, AgentNodeConfigV1, PreparedContextV1
+from .agent_contract import AgentModel, AgentNodeConfigV1, EntityNeedV1, PreparedContextV1
 from .agent_continuation import (
     AgentContinuation, claim_agent_continuation, release_agent_continuation, save_agent_continuation, agent_continuation_progress,
     FlowContinuationState, update_agent_continuation,
@@ -397,6 +397,59 @@ async def execute_agent(
                             payload["target"].update(reading_version=1, reading_intent=book.scope["reading_intent"])
                         if structural_task and inputs.get("count_mode") == "fixed" and payload.get("remaining") is True:
                             payload["suggested_count"] = inputs["count"]
+                        # 容错：模型把 selected_entities 返回成扁平的 {ids: [...], resource_type: "..."} 或 list[{id, resource_type}] → 转成按类型分字段的 dict
+                        kind_key_map = {"character": "character_ids", "faction": "faction_ids", "location": "location_ids", "item": "item_ids", "rule": "rule_ids"}
+                        _sel_raw = payload.get("selected_entities")
+                        if isinstance(_sel_raw, dict) and "ids" in _sel_raw and "resource_type" in _sel_raw:
+                            _field = kind_key_map.get(_sel_raw["resource_type"])
+                            if _field:
+                                payload["selected_entities"] = {_field: _sel_raw["ids"]}
+                        elif isinstance(_sel_raw, list):
+                            _grouped = {v: [] for v in kind_key_map.values()}
+                            for _item in _sel_raw:
+                                if not isinstance(_item, dict):
+                                    continue
+                                _rid = _item.get("id") or _item.get("entity_id")
+                                _rtype = _item.get("resource_type")
+                                _field = kind_key_map.get(_rtype)
+                                if _rid and _field:
+                                    _grouped[_field].append(_rid)
+                            payload["selected_entities"] = _grouped
+                        # 容忍模型在长上下文下的格式漂移：entity_id -> id；缺 resource_type 从 selected_entities 反推；无法对应说明的 reason 直接丢弃。
+                        selection_kinds = {"character_ids": "character", "faction_ids": "faction", "location_ids": "location", "item_ids": "item", "rule_ids": "world_rule"}
+                        id_to_kind: dict[str, str] = {}
+                        selected_entities_raw = payload.get("selected_entities")
+                        if isinstance(selected_entities_raw, dict):
+                            for kind_key, kind in selection_kinds.items():
+                                ids = selected_entities_raw.get(kind_key)
+                                if isinstance(ids, list):
+                                    for eid in ids:
+                                        id_to_kind[str(eid)] = kind
+                        raw_reasons = payload.get("selection_reasons")
+                        if isinstance(raw_reasons, list):
+                            cleaned_reasons = []
+                            for reason in raw_reasons:
+                                if not isinstance(reason, dict):
+                                    continue
+                                if "id" not in reason and "entity_id" in reason:
+                                    reason["id"] = reason["entity_id"]
+                                reason.pop("entity_id", None)
+                                rid = str(reason.get("id", ""))
+                                if "resource_type" not in reason and rid in id_to_kind:
+                                    reason["resource_type"] = id_to_kind[rid]
+                                if "resource_type" in reason and rid:
+                                    cleaned_reasons.append(reason)
+                            # 容错：selected_entities 里有但 selection_reasons 里漏了的实体 → 补默认 reason（gemma 长上下文漂移）
+                            _existing_reason_ids = {str(r.get("id")) for r in cleaned_reasons if r.get("id")}
+                            for _eid, _kind in id_to_kind.items():
+                                if _eid not in _existing_reason_ids:
+                                    cleaned_reasons.append({"resource_type": _kind, "id": _eid, "reason": "模型已选中该实体（说明缺失，待补充）"})
+                            payload["selection_reasons"] = cleaned_reasons
+                        # 调和 remaining 与 suggested_count 的矛盾（小模型自相矛盾）：已覆盖却给数量建议 → 置零；仍需生成却没数量 → 视为已覆盖
+                        if payload.get("remaining") is False and payload.get("suggested_count"):
+                            payload["suggested_count"] = 0
+                        if payload.get("remaining") is True and not payload.get("suggested_count"):
+                            payload["remaining"] = False
                         report = PreparedContextV1.model_validate(payload)
                         if report.target.model_dump(mode="json") != book.scope:
                             raise ValueError("整理报告的小说和目标必须与固定位置相同")
@@ -438,7 +491,8 @@ async def execute_agent(
                             })
                         for kind, count in report.new_counts.model_dump().items():
                             if count and not any(item.resource_type == kind for item in report.entity_needs):
-                                raise ValueError(f"新增 {kind} 前必须说明尚缺的剧情职责")
+                                # 容错：模型要新增该类实体但没说明尚缺职责（小模型格式漂移）→ 补一条默认说明
+                                report.entity_needs.append(EntityNeedV1(resource_type=kind, role="待补充剧情职责", reason="模型已标记需要新增该类实体，但未明确说明具体职责"))
                             if count and not any(read.get("tool") == "search_entities" and read["arguments"]["resource_type"] == kind for read in state.reads):
                                 raise ValueError(f"新增 {kind} 前必须先检索本书已有资料")
                         if models.task in WRITING_TASKS and report.missing_required and not state.material_missing_reviewed:

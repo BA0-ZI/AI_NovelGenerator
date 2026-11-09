@@ -531,7 +531,7 @@ export default function VolumeWorkspace({
     const fieldErrors: ApiFieldErrors = {};
     if ((editor.mode === "create" || editor.section === "identity") && !draft.title.trim()) fieldErrors.title = [t("validation.titleRequired")];
     if ((editor.mode === "create" || editor.section === "planning") && draft.planning) {
-      if (!Number.isInteger(draft.planning.target_chapter_count) || draft.planning.target_chapter_count < 1 || draft.planning.target_chapter_count > 1000) {
+      if (!Number.isInteger(draft.planning.target_chapter_count) || draft.planning.target_chapter_count < 1 || draft.planning.target_chapter_count > 5000) {
         fieldErrors.target_chapter_count = [t("validation.targetChapterCount")];
       }
       if (!Number.isInteger(draft.planning.target_word_count) || draft.planning.target_word_count < 1 || draft.planning.target_word_count > 10_000_000) {

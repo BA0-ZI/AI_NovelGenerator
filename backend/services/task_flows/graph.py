@@ -21,7 +21,7 @@ _SCHEMA_KEYS = {
     "enum", "const", "properties", "required", "additionalProperties", "items",
     "minItems", "maxItems", "uniqueItems", "minProperties", "maxProperties", "minLength", "maxLength", "pattern",
     "minimum", "maximum", "exclusiveMinimum", "exclusiveMaximum", "multipleOf",
-    "anyOf", "oneOf", "discriminator",
+    "anyOf", "oneOf", "discriminator", "format",
 }
 _TYPES = {"string", "integer", "number", "boolean", "null", "object", "array"}
 _OPERATORS = {"truthy", "eq", "ne", "gt", "gte", "lt", "lte", "contains", "exists"}

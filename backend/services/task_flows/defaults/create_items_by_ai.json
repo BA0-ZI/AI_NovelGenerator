@@ -16,7 +16,7 @@
           "default": 6,
           "maximum": 20,
           "minimum": 1,
-          "title": "Item Count",
+          "title": "物品数量",
           "type": [
             "integer",
             "null"
@@ -25,16 +25,16 @@
         },
         "allow_incremental": {
           "default": true,
-          "title": "Allow Incremental",
+          "title": "允许增量",
           "type": "boolean",
           "required": false
         },
         "user_guidance": {
           "default": "",
-          "maxLength": 2000,
-          "title": "User Guidance",
+          "title": "作者要求",
           "type": "string",
-          "required": false
+          "required": false,
+          "format": "textarea"
         }
       },
       "values": {},
@@ -49,7 +49,7 @@
           "default": 6,
           "maximum": 20,
           "minimum": 1,
-          "title": "Item Count",
+          "title": "物品数量",
           "type": [
             "integer",
             "null"
@@ -58,16 +58,16 @@
         },
         "allow_incremental": {
           "default": true,
-          "title": "Allow Incremental",
+          "title": "允许增量",
           "type": "boolean",
           "required": false
         },
         "user_guidance": {
           "default": "",
-          "maxLength": 2000,
-          "title": "User Guidance",
+          "title": "作者要求",
           "type": "string",
-          "required": false
+          "required": false,
+          "format": "textarea"
         }
       },
       "outputs": {
@@ -108,7 +108,7 @@
     {
       "id": "create_items",
       "type": "llm",
-      "label": "create_items",
+      "label": "创建物品",
       "inputs": {
         "active_world_rules_json": {
           "type": "string"
@@ -148,7 +148,7 @@
           },
           "maxItems": 20,
           "minItems": 1,
-          "title": "Items",
+          "title": "物品",
           "type": "array",
           "required": true,
           "$defs": {
@@ -338,7 +338,7 @@
           },
           "maxItems": 20,
           "minItems": 1,
-          "title": "Items",
+          "title": "物品",
           "type": "array",
           "required": true,
           "$defs": {
@@ -508,7 +508,7 @@
           "default": 6,
           "maximum": 20,
           "minimum": 1,
-          "title": "Item Count",
+          "title": "物品数量",
           "type": [
             "integer",
             "null"
@@ -517,16 +517,16 @@
         },
         "param_allow_incremental": {
           "default": true,
-          "title": "Allow Incremental",
+          "title": "允许增量",
           "type": "boolean",
           "required": false
         },
         "param_user_guidance": {
           "default": "",
-          "maxLength": 2000,
-          "title": "User Guidance",
+          "title": "作者要求",
           "type": "string",
-          "required": false
+          "required": false,
+          "format": "textarea"
         }
       },
       "outputs": {},

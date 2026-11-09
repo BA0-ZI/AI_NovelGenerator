@@ -242,7 +242,7 @@ export function TaskFlowSchemaField({
           aria-invalid={invalid || undefined}
           className={FLOW_INPUT_CLASS}
           disabled={disabled}
-          value={String(value ?? "")}
+          value={String(value || schema.default || "")}
           onChange={(event) =>
             onChange(
               event.target.value === "" &&
@@ -289,7 +289,7 @@ export function TaskFlowSchemaField({
           aria-invalid={invalid || undefined}
           className={`${FLOW_INPUT_CLASS} min-h-28 resize-y leading-6`}
           rows={4}
-          value={String(value ?? "")}
+          value={String(value || schema.default || "")}
           maxLength={schema.maxLength}
           disabled={disabled}
           onChange={(event) => onChange(inlineOptional && event.target.value === "" ? null : event.target.value)}
@@ -300,7 +300,7 @@ export function TaskFlowSchemaField({
           name={name}
           aria-invalid={invalid || undefined}
           className={FLOW_INPUT_CLASS}
-          value={String(value ?? "")}
+          value={String(value || schema.default || "")}
           maxLength={schema.maxLength}
           disabled={disabled}
           onChange={(event) => onChange(inlineOptional && event.target.value === "" ? null : event.target.value)}

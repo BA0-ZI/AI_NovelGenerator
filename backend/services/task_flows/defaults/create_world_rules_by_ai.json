@@ -16,7 +16,7 @@
           "default": 5,
           "maximum": 20,
           "minimum": 1,
-          "title": "Core Rule Count",
+          "title": "核心规则数量",
           "type": [
             "integer",
             "null"
@@ -25,16 +25,16 @@
         },
         "allow_incremental": {
           "default": true,
-          "title": "Allow Incremental",
+          "title": "允许增量",
           "type": "boolean",
           "required": false
         },
         "user_guidance": {
           "default": "",
-          "maxLength": 2000,
-          "title": "User Guidance",
+          "title": "作者要求",
           "type": "string",
-          "required": false
+          "required": false,
+          "format": "textarea"
         }
       },
       "values": {},
@@ -49,7 +49,7 @@
           "default": 6,
           "maximum": 20,
           "minimum": 1,
-          "title": "Core Rule Count",
+          "title": "核心规则数量",
           "type": [
             "integer",
             "null"
@@ -58,16 +58,16 @@
         },
         "allow_incremental": {
           "default": false,
-          "title": "Allow Incremental",
+          "title": "允许增量",
           "type": "boolean",
           "required": false
         },
         "user_guidance": {
           "default": "",
-          "maxLength": 2000,
-          "title": "User Guidance",
+          "title": "作者要求",
           "type": "string",
-          "required": false
+          "required": false,
+          "format": "textarea"
         }
       },
       "outputs": {
@@ -108,7 +108,7 @@
     {
       "id": "create_core_world_rules",
       "type": "llm",
-      "label": "create_core_world_rules",
+      "label": "创建核心世界规则",
       "inputs": {
         "allow_incremental": {
           "type": "string"
@@ -148,7 +148,7 @@
           },
           "maxItems": 20,
           "minItems": 1,
-          "title": "Core World Rules",
+          "title": "核心世界规则",
           "type": "array",
           "required": true,
           "$defs": {
@@ -302,7 +302,7 @@
           },
           "maxItems": 20,
           "minItems": 1,
-          "title": "Core World Rules",
+          "title": "核心世界规则",
           "type": "array",
           "required": true,
           "$defs": {
@@ -436,7 +436,7 @@
           "default": 6,
           "maximum": 20,
           "minimum": 1,
-          "title": "Core Rule Count",
+          "title": "核心规则数量",
           "type": [
             "integer",
             "null"
@@ -445,16 +445,16 @@
         },
         "param_allow_incremental": {
           "default": false,
-          "title": "Allow Incremental",
+          "title": "允许增量",
           "type": "boolean",
           "required": false
         },
         "param_user_guidance": {
           "default": "",
-          "maxLength": 2000,
-          "title": "User Guidance",
+          "title": "作者要求",
           "type": "string",
-          "required": false
+          "required": false,
+          "format": "textarea"
         }
       },
       "outputs": {},

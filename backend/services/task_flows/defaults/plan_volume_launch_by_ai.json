@@ -15,7 +15,7 @@
         "target_chapter_count": {
           "anyOf": [
             {
-              "maximum": 1000,
+              "maximum": 5000,
               "minimum": 1,
               "type": "integer"
             },
@@ -24,7 +24,7 @@
             }
           ],
           "default": null,
-          "title": "Target Chapter Count",
+          "title": "目标章节数",
           "required": false
         },
         "target_word_count": {
@@ -39,15 +39,15 @@
             }
           ],
           "default": null,
-          "title": "Target Word Count",
+          "title": "目标字数",
           "required": false
         },
         "user_guidance": {
           "default": "",
-          "maxLength": 2000,
-          "title": "User Guidance",
+          "title": "作者要求",
           "type": "string",
-          "required": false
+          "required": false,
+          "format": "textarea"
         }
       },
       "values": {},
@@ -61,7 +61,7 @@
         "target_chapter_count": {
           "anyOf": [
             {
-              "maximum": 1000,
+              "maximum": 5000,
               "minimum": 1,
               "type": "integer"
             },
@@ -70,7 +70,7 @@
             }
           ],
           "default": null,
-          "title": "Target Chapter Count",
+          "title": "目标章节数",
           "required": false
         },
         "target_word_count": {
@@ -85,15 +85,15 @@
             }
           ],
           "default": null,
-          "title": "Target Word Count",
+          "title": "目标字数",
           "required": false
         },
         "user_guidance": {
           "default": "",
-          "maxLength": 2000,
-          "title": "User Guidance",
+          "title": "作者要求",
           "type": "string",
-          "required": false
+          "required": false,
+          "format": "textarea"
         }
       },
       "outputs": {
@@ -140,7 +140,7 @@
     {
       "id": "create_volume_launch_package",
       "type": "llm",
-      "label": "create_volume_launch_package",
+      "label": "生成分卷启动包",
       "inputs": {
         "active_world_rules": {
           "type": "string"
@@ -262,7 +262,7 @@
                   "type": "string"
                 },
                 "target_chapter_count": {
-                  "maximum": 1000,
+                  "maximum": 5000,
                   "minimum": 1,
                   "title": "Target Chapter Count",
                   "type": "integer"
@@ -388,7 +388,7 @@
                   "type": "string"
                 },
                 "target_chapter_count": {
-                  "maximum": 1000,
+                  "maximum": 5000,
                   "minimum": 1,
                   "title": "Target Chapter Count",
                   "type": "integer"
@@ -417,7 +417,7 @@
         "param_target_chapter_count": {
           "anyOf": [
             {
-              "maximum": 1000,
+              "maximum": 5000,
               "minimum": 1,
               "type": "integer"
             },
@@ -426,7 +426,7 @@
             }
           ],
           "default": null,
-          "title": "Target Chapter Count",
+          "title": "目标章节数",
           "required": false
         },
         "param_target_word_count": {
@@ -441,15 +441,15 @@
             }
           ],
           "default": null,
-          "title": "Target Word Count",
+          "title": "目标字数",
           "required": false
         },
         "param_user_guidance": {
           "default": "",
-          "maxLength": 2000,
-          "title": "User Guidance",
+          "title": "作者要求",
           "type": "string",
-          "required": false
+          "required": false,
+          "format": "textarea"
         }
       },
       "outputs": {},

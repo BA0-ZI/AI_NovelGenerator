@@ -15,7 +15,7 @@
         "character_count": {
           "maximum": 50,
           "minimum": 1,
-          "title": "Character Count",
+          "title": "角色数量",
           "type": [
             "integer",
             "null"
@@ -34,8 +34,9 @@
             }
           ],
           "default": null,
-          "title": "User Guidance",
-          "required": false
+          "title": "作者要求",
+          "required": false,
+          "format": "textarea"
         }
       },
       "values": {},
@@ -49,7 +50,7 @@
         "character_count": {
           "maximum": 50,
           "minimum": 1,
-          "title": "Character Count",
+          "title": "角色数量",
           "type": [
             "integer",
             "null"
@@ -67,8 +68,9 @@
             }
           ],
           "default": null,
-          "title": "User Guidance",
-          "required": false
+          "title": "作者要求",
+          "required": false,
+          "format": "textarea"
         }
       },
       "outputs": {
@@ -97,7 +99,7 @@
     {
       "id": "create_core_characters",
       "type": "llm",
-      "label": "create_core_characters",
+      "label": "创建核心角色",
       "inputs": {
         "character_count": {
           "type": [
@@ -126,7 +128,7 @@
           },
           "maxItems": 50,
           "minItems": 1,
-          "title": "Core Characters",
+          "title": "核心角色",
           "type": "array",
           "required": true,
           "$defs": {
@@ -462,7 +464,7 @@
           },
           "maxItems": 50,
           "minItems": 1,
-          "title": "Binding Candidates",
+          "title": "绑定候选",
           "type": "array",
           "required": true,
           "$defs": {
@@ -817,7 +819,7 @@
           },
           "maxItems": 50,
           "minItems": 1,
-          "title": "Core Characters",
+          "title": "核心角色",
           "type": "array",
           "required": true,
           "$defs": {
@@ -1153,7 +1155,7 @@
           },
           "maxItems": 50,
           "minItems": 1,
-          "title": "Binding Candidates",
+          "title": "绑定候选",
           "type": "array",
           "required": true,
           "$defs": {
@@ -1485,7 +1487,7 @@
         "param_character_count": {
           "maximum": 50,
           "minimum": 1,
-          "title": "Character Count",
+          "title": "角色数量",
           "type": [
             "integer",
             "null"
@@ -1503,8 +1505,9 @@
             }
           ],
           "default": null,
-          "title": "User Guidance",
-          "required": false
+          "title": "作者要求",
+          "required": false,
+          "format": "textarea"
         }
       },
       "outputs": {},

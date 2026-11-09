@@ -52,8 +52,8 @@ class AgentNodeConfigV1(AgentModel):
     model: str = ""
     parameters: dict[str, Any] = Field(default_factory=dict)
     timeout_seconds: int | None = Field(default=None, gt=0)
-    max_rounds: int = Field(default=8, ge=1, le=8)
-    max_tool_calls: int = Field(default=24, ge=1, le=24)
+    max_rounds: int = Field(default=8, ge=1, le=100)
+    max_tool_calls: int = Field(default=24, ge=1, le=300)
     deduplicate_tool_budget: bool = False
     reference_unchanged_entities: bool = False
     index_structural_context: bool = False
